@@ -1,5 +1,5 @@
 .vscode/
-.ide/
+.idea/
 build/
 tmp/
 node_modules/
