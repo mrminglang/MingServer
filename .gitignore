@@ -1,0 +1,7 @@
+.vscode/
+.ide/
+build/
+tmp/
+node_modules/
+*.tgz
+vendor

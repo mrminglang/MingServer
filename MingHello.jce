@@ -1,0 +1,25 @@
+module MingApp
+{
+    struct TeacherList {
+        0 optional string nickName;   //昵称
+        1 optional string hearderPic; //头像
+    };
+
+    struct GetTeacherListReq {
+        0 optional int beginIndex; //偏移数
+        1 optional int count;      //偏移量
+        2 optional string nickName;//昵称
+    };
+
+    struct GetTeacherListRsp {
+        0 optional int sum; //返回数量
+        1 optional string cacheValue; // 缓存value
+        2 optional vector<TeacherList> teachers; //文章列表
+    };
+
+	interface MingHello
+	{
+	    //获取老师列表
+        int getTeacherList(GetTeacherListReq req, out GetTeacherListRsp rsp);
+	};
+};
