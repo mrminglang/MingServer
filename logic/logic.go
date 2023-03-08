@@ -2,12 +2,15 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
 	"server/logic/esrpc"
 	"server/repositories/caches/ming_cache"
+	"server/repositories/es/es_repository"
 	"server/repositories/mysql/teacher_repository"
 	"server/taf-protocol/MingApp"
 	"server/utils/log"
+	"strconv"
 	"time"
 )
 
@@ -102,5 +105,53 @@ func GetStringCache(_ context.Context, req *MingApp.GetStringCacheReq, rsp *Ming
 	rsp.Msg = "success"
 	rsp.CacheValue = cacheRsp.Value
 	log.Cache.Infof("{GetStringCache end rsp}|%s", rsp.Display())
+	return
+}
+
+// 设置ES数据
+func SetESData(_ context.Context, req *MingApp.SetESDataReq, rsp *MingApp.SetESDataRsp) (ret int32, err error) {
+	log.Es.Infof("{SetESData start req}|%s", req.Display())
+	rsp.Ret = ret
+	if req.IndexName == "" || req.Typ == "" || req.Id <= 0 {
+		rsp.Msg = "参数错误"
+		log.Es.Errorf("{SetESData req param is failed}|%s", rsp.Msg)
+		return
+	}
+	ret, err = es_repository.SetESData(req.IndexName, req.Typ, strconv.Itoa(int(req.Id)), req.Teachers)
+	if err != nil {
+		rsp.Msg = err.Error()
+		log.Es.Errorf("{SetESData is error}|%s", err.Error())
+		return ret, nil
+	}
+
+	rsp.Msg = "success"
+	log.Es.Infof("{SetESData end rsp}|%s", rsp.Display())
+	return
+}
+
+// 获取ES数据 by id
+func GetESDataById(_ context.Context, req *MingApp.GetESDataByIdReq, rsp *MingApp.GetESDataByIdRsp) (ret int32, err error) {
+	log.Es.Infof("{GetESDataById start req}|%s", req.Display())
+	rsp.Ret = ret
+	if req.IndexName == "" || req.Typ == "" || req.Id <= 0 {
+		rsp.Msg = "参数错误"
+		log.Es.Errorf("{GetESDataById req param is failed}|%s", rsp.Msg)
+		return
+	}
+
+	source, err := es_repository.GetESDataById(req.IndexName, req.Typ, strconv.Itoa(int(req.Id)))
+	if err != nil {
+		rsp.Msg = err.Error()
+		log.Es.Errorf("{GetESDataById is error}|%s", err.Error())
+		return ret, nil
+	}
+	err = json.Unmarshal([]byte(source), &rsp.Teachers)
+	if err != nil {
+		log.Es.Errorf("{GetESDataById source Unmarshal error::%s}", err.Error())
+		return 0, nil
+	}
+
+	rsp.Msg = "success"
+	log.Es.Infof("{GetESDataById end rsp}|%s", rsp.Display())
 	return
 }

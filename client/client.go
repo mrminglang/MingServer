@@ -13,12 +13,46 @@ func getTeacherList(app *MingApp.MingHello) {
 	req.BeginIndex = 0
 	req.Count = 10
 	//req.NickName = "张三"
-	rst, err := app.GetTeacherList(req, rsp)
+	ret, err := app.GetTeacherList(req, rsp)
 	if err != nil {
 		log.Def.Errorf("getTeacherList error::%s", err.Error())
 		return
 	}
-	fmt.Printf("getTeacherList rst::%d", rst)
+	fmt.Printf("getTeacherList rst::%d", ret)
+	fmt.Printf("getTeacherList rsp::%s", rsp.Display())
+}
+
+func setESData(app *MingApp.MingHello) {
+	req := new(MingApp.SetESDataReq)
+	rsp := new(MingApp.SetESDataRsp)
+	req.IndexName = "userss"
+	req.Typ = "person"
+	req.Id = 8
+	req.Teachers = MingApp.TeacherList{
+		NickName:   "张三8",
+		HearderPic: "http://cdn.upchinaproduct.com/project/dakaH5/images/avatar_03.png",
+	}
+	ret, err := app.SetESData(req, rsp)
+	if err != nil {
+		log.Es.Errorf("setESData error::%s", err.Error())
+		return
+	}
+	fmt.Printf("getTeacherList rst::%d", ret)
+	fmt.Printf("getTeacherList rsp::%s", rsp.Display())
+}
+
+func getESDataById(app *MingApp.MingHello) {
+	req := new(MingApp.GetESDataByIdReq)
+	rsp := new(MingApp.GetESDataByIdRsp)
+	req.IndexName = "userss" //索引必须先存在
+	req.Typ = "person"
+	req.Id = 8
+	ret, err := app.GetESDataById(req, rsp)
+	if err != nil {
+		log.Es.Errorf("setESData error::%s", err.Error())
+		return
+	}
+	fmt.Printf("getTeacherList rst::%d", ret)
 	fmt.Printf("getTeacherList rsp::%s", rsp.Display())
 }
 
@@ -28,5 +62,7 @@ func main() {
 	app := new(MingApp.MingHello)
 	comm.StringToProxy(obj, app)
 
-	getTeacherList(app)
+	//getTeacherList(app)
+	setESData(app)
+	getESDataById(app)
 }

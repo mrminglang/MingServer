@@ -19,10 +19,10 @@ var IsInitOk = false
 var DbConnName2Ptr = make(map[string]*gorm.DB)
 
 //初始化配置文件里面的数据库到map中
-func InitDb(confPtr *conf.Conf, dbDoman string) (err error) {
-	dbConfList := confPtr.GetDomain(dbDoman)
+func Init(conf *conf.Conf, dbDoman string) (err error) {
+	dbConfList := conf.GetDomain(dbDoman)
 	for _, dbName := range dbConfList {
-		oneDbConfMap := confPtr.GetMap(dbDoman + "/" + dbName)
+		oneDbConfMap := conf.GetMap(dbDoman + "/" + dbName)
 		switch oneDbConfMap["dbType"] {
 		case "mysql":
 			{

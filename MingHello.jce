@@ -13,7 +13,7 @@ module MingApp
 
     struct GetTeacherListRsp {
         0 optional int sum; //返回数量
-        1 optional vector<TeacherList> teachers; //文章列表
+        1 optional vector<TeacherList> teachers; //列表
     };
 
     struct SetStringCacheReq {
@@ -36,13 +36,43 @@ module MingApp
         2 optional string cacheValue; // 缓存value
     };
 
+    struct SetESDataReq {
+        0 require string indexName; // 索引
+        1 require string typ; // 类型
+        2 require int id;
+        3 optional TeacherList teachers;
+    };
+
+    struct SetESDataRsp {
+        0 optional int ret;
+        1 optional string msg;
+    };
+
+    struct GetESDataByIdReq {
+        0 require string indexName; // 索引
+        1 require string typ; // 类型
+        2 require int id;
+    };
+
+    struct GetESDataByIdRsp {
+        0 optional int ret;
+        1 optional string msg;
+        2 optional TeacherList teachers;
+    };
+
 	interface MingHello
 	{
 	    // 获取老师列表
         int getTeacherList(GetTeacherListReq req, out GetTeacherListRsp rsp);
+
         // 设置DCache缓存 String模式
         int setStringCache(SetStringCacheReq req, out SetStringCacheRsp rsp);
         // 获取DCache缓存 String模式
         int getStringCache(GetStringCacheReq req, out GetStringCacheRsp rsp);
+
+        // 设置ES数据
+        int setESData(SetESDataReq req, out SetESDataRsp rsp);
+        // 获取ES数据 by id
+        int getESDataById(GetESDataByIdReq req, out GetESDataByIdRsp rsp);
 	};
 };

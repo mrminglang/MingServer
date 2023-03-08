@@ -13,7 +13,7 @@ var Cache = taf.GetDayLogger("cache", 1) // 缓存类日志
 var Es = taf.GetDayLogger("es", 1)
 
 // 启动日志设置
-func InitLog() {
+func Init() {
 	Def.SetShowLevel(true)  // 设置日志级别
 	Def.SetCallerFlag(true) // 显示代码位置
 
@@ -25,6 +25,6 @@ func InitLog() {
 }
 
 // 关闭日志设置
-func DestroyLog() {
+func Destroy() {
 
 }

@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/mrminglang/tools v1.0.4
+	github.com/olivere/elastic/v7 v7.0.32
 	github.com/stretchr/testify v1.7.0
 	gitlab.upchinaproduct.com/taf/go/dcache v1.0.0
 	gitlab.upchinaproduct.com/taf/tafgo v1.1.2
@@ -13,6 +14,9 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
+	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )

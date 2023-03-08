@@ -945,3 +945,557 @@ func (st *GetStringCacheRsp) Display() string {
 	ret = ret + " }"
 	return ret
 }
+
+// SetESDataReq struct implement
+type SetESDataReq struct {
+	codec.JceStructBase
+	IndexName string      `json:"indexName"`
+	Typ       string      `json:"typ"`
+	Id        int32       `json:"id"`
+	Teachers  TeacherList `json:"teachers"`
+}
+
+func (st *SetESDataReq) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+	st.Teachers.ResetDefault()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *SetESDataReq) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_string(&st.IndexName, 0, true)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Typ, 1, true)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_int32(&st.Id, 2, true)
+	if err != nil {
+		return err
+	}
+
+	err = st.Teachers.ReadBlock(_is, 3, false)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *SetESDataReq) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require SetESDataReq, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *SetESDataReq) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_string(st.IndexName, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Typ, 1)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_int32(st.Id, 2)
+	if err != nil {
+		return err
+	}
+
+	err = st.Teachers.WriteBlock(_os, 3)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *SetESDataReq) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *SetESDataReq) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("indexName:", st.IndexName)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("typ:", st.Typ)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("id:", st.Id)
+	ret = ret + ",  "
+	ret = ret + "teachers:" + st.Teachers.Display()
+
+	ret = ret + " }"
+	return ret
+}
+
+// SetESDataRsp struct implement
+type SetESDataRsp struct {
+	codec.JceStructBase
+	Ret int32  `json:"ret"`
+	Msg string `json:"msg"`
+}
+
+func (st *SetESDataRsp) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *SetESDataRsp) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_int32(&st.Ret, 0, false)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Msg, 1, false)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *SetESDataRsp) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require SetESDataRsp, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *SetESDataRsp) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_int32(st.Ret, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Msg, 1)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *SetESDataRsp) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *SetESDataRsp) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("ret:", st.Ret)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("msg:", st.Msg)
+
+	ret = ret + " }"
+	return ret
+}
+
+// GetESDataByIdReq struct implement
+type GetESDataByIdReq struct {
+	codec.JceStructBase
+	IndexName string `json:"indexName"`
+	Typ       string `json:"typ"`
+	Id        int32  `json:"id"`
+}
+
+func (st *GetESDataByIdReq) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *GetESDataByIdReq) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_string(&st.IndexName, 0, true)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Typ, 1, true)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_int32(&st.Id, 2, true)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *GetESDataByIdReq) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require GetESDataByIdReq, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *GetESDataByIdReq) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_string(st.IndexName, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Typ, 1)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_int32(st.Id, 2)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *GetESDataByIdReq) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *GetESDataByIdReq) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("indexName:", st.IndexName)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("typ:", st.Typ)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("id:", st.Id)
+
+	ret = ret + " }"
+	return ret
+}
+
+// GetESDataByIdRsp struct implement
+type GetESDataByIdRsp struct {
+	codec.JceStructBase
+	Ret      int32       `json:"ret"`
+	Msg      string      `json:"msg"`
+	Teachers TeacherList `json:"teachers"`
+}
+
+func (st *GetESDataByIdRsp) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+	st.Teachers.ResetDefault()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *GetESDataByIdRsp) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_int32(&st.Ret, 0, false)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Msg, 1, false)
+	if err != nil {
+		return err
+	}
+
+	err = st.Teachers.ReadBlock(_is, 2, false)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *GetESDataByIdRsp) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require GetESDataByIdRsp, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *GetESDataByIdRsp) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_int32(st.Ret, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Msg, 1)
+	if err != nil {
+		return err
+	}
+
+	err = st.Teachers.WriteBlock(_os, 2)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *GetESDataByIdRsp) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *GetESDataByIdRsp) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("ret:", st.Ret)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("msg:", st.Msg)
+	ret = ret + ",  "
+	ret = ret + "teachers:" + st.Teachers.Display()
+
+	ret = ret + " }"
+	return ret
+}

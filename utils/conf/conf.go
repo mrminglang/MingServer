@@ -10,7 +10,7 @@ import (
 var Conf *conf.Conf
 
 // 初始化配置
-func InitConf() {
+func Init() {
 	fmt.Printf("init config start ......\n")
 	cfg := taf.GetServerConfig()
 	fmt.Printf("init config Server::%s\n", cfg.Server)
