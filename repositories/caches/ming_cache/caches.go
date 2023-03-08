@@ -1,9 +1,9 @@
 package ming_cache
 
 import (
-	"MingServer/utils/cache"
-	"MingServer/utils/log"
 	"gitlab.upchinaproduct.com/taf/go/dcache"
+	"server/utils/cache"
+	"server/utils/log"
 )
 
 type User struct {

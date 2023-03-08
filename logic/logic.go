@@ -1,13 +1,25 @@
 package logic
 
 import (
-	"MingServer/repositories/caches/ming_cache"
-	"MingServer/repositories/mysql/teacher_repository"
-	"MingServer/taf-protocol/MingApp"
-	"MingServer/utils/log"
 	"context"
+	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
+	"server/logic/esrpc"
+	"server/repositories/caches/ming_cache"
+	"server/repositories/mysql/teacher_repository"
+	"server/taf-protocol/MingApp"
+	"server/utils/log"
 	"time"
 )
+
+// 初始化业务逻辑
+func Init(conf *conf.Conf) {
+
+	// ESDriverServer rpc
+	esObj := conf.GetString("/obj/<esObj>")
+	log.Def.Infof("esrpc.Init esObj::", esObj)
+	//初始化es模块
+	esrpc.Init(esObj)
+}
 
 // 获取老师列表
 func GetTeacherList(_ context.Context, req *MingApp.GetTeacherListReq, rsp *MingApp.GetTeacherListRsp) (ret int32, err error) {
@@ -17,22 +29,6 @@ func GetTeacherList(_ context.Context, req *MingApp.GetTeacherListReq, rsp *Ming
 		log.Def.Errorf("{GetTeacherList req param is failed}|%s|%d", "参数错误！", time.Now().UnixMilli()-startTime)
 		return
 	}
-
-	// 设置缓存
-	key := "mingming1000"
-	value := "mingmingmingming"
-	ret, err = ming_cache.SetStringCache(key, value)
-	if err != nil {
-		log.Cache.Errorf("{GetTeacherList SetStringCache is error}|%s|%d", err.Error(), time.Now().UnixMilli()-startTime)
-		return 0, nil
-	}
-	// 获取缓存
-	ret, err, cacheRsp := ming_cache.GetStringCache(key)
-	if err != nil {
-		return 0, nil
-	}
-	rsp.CacheValue = cacheRsp.Value
-	log.Cache.Infof("{GetTeacherList GetStringCache cacheRsp::}|%s", cacheRsp)
 
 	// gorm 查询逻辑
 	whereMaps := map[string]string{
@@ -62,4 +58,49 @@ func GetTeacherList(_ context.Context, req *MingApp.GetTeacherListReq, rsp *Ming
 
 	log.Def.Infof("{GetTeacherList end rsp}|%s|%d", rsp.Display(), time.Now().UnixMilli()-startTime)
 	return ret, nil
+}
+
+// 设置DCache缓存
+func SetStringCache(_ context.Context, req *MingApp.SetStringCacheReq, rsp *MingApp.SetStringCacheRsp) (ret int32, err error) {
+	log.Cache.Infof("{SetStringCache start req}|%s", req.Display())
+	rsp.Ret = ret
+	if req.CacheKey == "" || req.CacheValue == "" {
+		rsp.Msg = "参数错误"
+		log.Cache.Errorf("{SetStringCache req param is failed}|%s", rsp.Msg)
+		return
+	}
+
+	ret, err = ming_cache.SetStringCache(req.CacheKey, req.CacheValue)
+	if err != nil {
+		rsp.Msg = err.Error()
+		log.Cache.Errorf("{SetStringCache is error}|%s", err.Error())
+		return ret, nil
+	}
+
+	rsp.Msg = "success"
+	log.Cache.Infof("{SetStringCache end rsp}|%s", rsp.Display())
+	return
+}
+
+// 获取DCache缓存
+func GetStringCache(_ context.Context, req *MingApp.GetStringCacheReq, rsp *MingApp.GetStringCacheRsp) (ret int32, err error) {
+	log.Cache.Infof("{GetStringCache req}|%s", req.Display())
+	rsp.Ret = ret
+	if req.CacheKey == "" {
+		rsp.Msg = "参数错误"
+		log.Cache.Errorf("{GetStringCache req param is failed}|%s", rsp.Msg)
+		return
+	}
+
+	_, err, cacheRsp := ming_cache.GetStringCache(req.CacheKey)
+	if err != nil {
+		rsp.Msg = err.Error()
+		log.Cache.Errorf("{GetStringCache is error}|%s", err.Error())
+		return ret, nil
+	}
+
+	rsp.Msg = "success"
+	rsp.CacheValue = cacheRsp.Value
+	log.Cache.Infof("{GetStringCache end rsp}|%s", rsp.Display())
+	return
 }

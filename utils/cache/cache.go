@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"MingServer/utils/log"
 	"gitlab.upchinaproduct.com/taf/go/dcache"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
+	"server/utils/log"
 )
 
 // Ming缓存dcache配置

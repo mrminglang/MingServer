@@ -1,8 +1,8 @@
 package teacher_repository
 
 import (
-	"MingServer/repositories/models"
-	"MingServer/utils/ormdb"
+	"server/repositories/models"
+	"server/utils/ormdb"
 )
 
 // QueryTeachers 分页查询老师

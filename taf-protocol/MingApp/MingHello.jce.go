@@ -279,9 +279,8 @@ func (st *GetTeacherListReq) Display() string {
 // GetTeacherListRsp struct implement
 type GetTeacherListRsp struct {
 	codec.JceStructBase
-	Sum        int32         `json:"sum"`
-	CacheValue string        `json:"cacheValue"`
-	Teachers   []TeacherList `json:"teachers"`
+	Sum      int32         `json:"sum"`
+	Teachers []TeacherList `json:"teachers"`
 }
 
 func (st *GetTeacherListRsp) ResetDefault() {
@@ -303,12 +302,7 @@ func (st *GetTeacherListRsp) ReadFrom(_is *codec.Reader) error {
 		return err
 	}
 
-	err = _is.Read_string(&st.CacheValue, 1, false)
-	if err != nil {
-		return err
-	}
-
-	err, have, ty = _is.SkipToNoCheck(2, false)
+	err, have, ty = _is.SkipToNoCheck(1, false)
 	if err != nil {
 		return err
 	}
@@ -394,12 +388,7 @@ func (st *GetTeacherListRsp) WriteTo(_os *codec.Buffer) error {
 		return err
 	}
 
-	err = _os.Write_string(st.CacheValue, 1)
-	if err != nil {
-		return err
-	}
-
-	err = _os.WriteHead(codec.LIST, 2)
+	err = _os.WriteHead(codec.LIST, 1)
 	if err != nil {
 		return err
 	}
@@ -451,9 +440,507 @@ func (st *GetTeacherListRsp) Display() string {
 	ret = "{ "
 	ret = ret + fmt.Sprint("sum:", st.Sum)
 	ret = ret + ",  "
-	ret = ret + fmt.Sprint("cacheValue:", st.CacheValue)
-	ret = ret + ",  "
 	ret = ret + fmt.Sprint("teachers:", st.Teachers)
+
+	ret = ret + " }"
+	return ret
+}
+
+// SetStringCacheReq struct implement
+type SetStringCacheReq struct {
+	codec.JceStructBase
+	CacheKey   string `json:"cacheKey"`
+	CacheValue string `json:"cacheValue"`
+}
+
+func (st *SetStringCacheReq) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *SetStringCacheReq) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_string(&st.CacheKey, 0, true)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.CacheValue, 1, true)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *SetStringCacheReq) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require SetStringCacheReq, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *SetStringCacheReq) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_string(st.CacheKey, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.CacheValue, 1)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *SetStringCacheReq) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *SetStringCacheReq) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("cacheKey:", st.CacheKey)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("cacheValue:", st.CacheValue)
+
+	ret = ret + " }"
+	return ret
+}
+
+// SetStringCacheRsp struct implement
+type SetStringCacheRsp struct {
+	codec.JceStructBase
+	Ret int32  `json:"ret"`
+	Msg string `json:"msg"`
+}
+
+func (st *SetStringCacheRsp) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *SetStringCacheRsp) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_int32(&st.Ret, 0, false)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Msg, 1, false)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *SetStringCacheRsp) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require SetStringCacheRsp, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *SetStringCacheRsp) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_int32(st.Ret, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Msg, 1)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *SetStringCacheRsp) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *SetStringCacheRsp) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("ret:", st.Ret)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("msg:", st.Msg)
+
+	ret = ret + " }"
+	return ret
+}
+
+// GetStringCacheReq struct implement
+type GetStringCacheReq struct {
+	codec.JceStructBase
+	CacheKey string `json:"cacheKey"`
+}
+
+func (st *GetStringCacheReq) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *GetStringCacheReq) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_string(&st.CacheKey, 0, true)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *GetStringCacheReq) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require GetStringCacheReq, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *GetStringCacheReq) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_string(st.CacheKey, 0)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *GetStringCacheReq) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *GetStringCacheReq) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("cacheKey:", st.CacheKey)
+
+	ret = ret + " }"
+	return ret
+}
+
+// GetStringCacheRsp struct implement
+type GetStringCacheRsp struct {
+	codec.JceStructBase
+	Ret        int32  `json:"ret"`
+	Msg        string `json:"msg"`
+	CacheValue string `json:"cacheValue"`
+}
+
+func (st *GetStringCacheRsp) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *GetStringCacheRsp) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_int32(&st.Ret, 0, false)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Msg, 1, false)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.CacheValue, 2, false)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *GetStringCacheRsp) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require GetStringCacheRsp, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *GetStringCacheRsp) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_int32(st.Ret, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Msg, 1)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.CacheValue, 2)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *GetStringCacheRsp) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *GetStringCacheRsp) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("ret:", st.Ret)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("msg:", st.Msg)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("cacheValue:", st.CacheValue)
 
 	ret = ret + " }"
 	return ret

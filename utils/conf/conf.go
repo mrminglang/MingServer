@@ -1,10 +1,10 @@
 package conf
 
 import (
-	"MingServer/utils/taftool"
 	"fmt"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
+	"server/utils/taftool"
 )
 
 var Conf *conf.Conf

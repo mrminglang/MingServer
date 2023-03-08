@@ -1,10 +1,10 @@
 package main
 
 import (
-	"MingServer/taf-protocol/MingApp"
-	"MingServer/utils/log"
 	"fmt"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
+	"server/taf-protocol/MingApp"
+	"server/utils/log"
 )
 
 func getTeacherList(app *MingApp.MingHello) {

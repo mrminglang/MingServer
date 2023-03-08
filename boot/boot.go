@@ -1,10 +1,11 @@
 package boot
 
 import (
-	"MingServer/utils/cache"
-	"MingServer/utils/conf"
-	"MingServer/utils/log"
-	"MingServer/utils/ormdb"
+	"server/logic"
+	"server/utils/cache"
+	"server/utils/conf"
+	"server/utils/log"
+	"server/utils/ormdb"
 )
 
 // 启动服务设置
@@ -21,6 +22,9 @@ func Boot() {
 
 	// 注册DCache服务
 	cache.Init(conf.GetConf())
+
+	//初始化业务逻辑
+	logic.Init(conf.GetConf())
 
 	log.Def.Infof("boot success......")
 }

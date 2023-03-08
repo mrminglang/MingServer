@@ -1,0 +1,32 @@
+
+module FCS
+{
+
+	struct QueryPureReq {
+		0 optional string method;
+		1 optional string path;
+		2 optional string postBody;
+	};
+
+	struct QueryPureRsp {
+		0 optional int httpCode;
+		1 optional string jsonRsp;
+	};
+
+	struct QueryPureBatchReq {
+		0 optional map<int,QueryPureReq> indexId2Req;
+	};
+
+	struct QueryPureBatchRsp {
+		0 optional map<int,QueryPureRsp> indexId2Rsp;
+	};
+
+	interface ESDriver
+	{
+		//原始请求es
+		int queryPure(QueryPureReq req,out QueryPureRsp rsp);
+
+		//原始请求es 批量版本
+		int queryPureBatch(QueryPureBatchReq req, out QueryPureBatchRsp rsp);
+	};
+};

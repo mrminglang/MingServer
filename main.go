@@ -1,11 +1,11 @@
 package main
 
 import (
-	"MingServer/boot"
-	"MingServer/taf-protocol/MingApp"
 	"fmt"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"os"
+	"server/boot"
+	"server/taf-protocol/MingApp"
 )
 
 func main() {
