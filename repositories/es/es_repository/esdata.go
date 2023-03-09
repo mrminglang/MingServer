@@ -9,7 +9,7 @@ import (
 // 创建ES数据
 func SetESData(indexName string, typ string, id string, body interface{}) (ret int32, err error) {
 	log.Es.Infof("{SetESData start indexName::%s, id::%s, body::%s}", indexName, id, body)
-	rsp, err := esdb.Client.Index().
+	esRsp, err := esdb.Client.Index().
 		Index(indexName).
 		Type(typ).
 		Id(id).
@@ -20,14 +20,14 @@ func SetESData(indexName string, typ string, id string, body interface{}) (ret i
 		return
 	}
 
-	log.Es.Infof("{SetESData rsp::%s}", &rsp)
+	log.Es.Infof("{SetESData esRsp::%s}", &esRsp)
 	return
 }
 
 // 查找ES数据 BY id
 func GetESDataById(indexName string, typ string, id string) (source string, err error) {
 	log.Es.Infof("{GetESDataById start indexName::%s, id::%s}", indexName, id)
-	rsp, err := esdb.Client.Get().
+	esRsp, err := esdb.Client.Get().
 		Index(indexName).
 		Type(typ).
 		Id(id).
@@ -36,13 +36,9 @@ func GetESDataById(indexName string, typ string, id string) (source string, err 
 		log.Es.Errorf("{GetESDataById error::%s}", err.Error())
 		return
 	}
-	log.Es.Infof("{GetESDataById rsp::%s}", rsp)
-	if rsp.Found {
-		by, _ := rsp.Source.MarshalJSON()
-		//if err != nil {
-		//	log.Es.Errorf("{GetESDataById rsp.Source json MarshalJSON error::%s}", err.Error())
-		//	return
-		//}
+	log.Es.Infof("{GetESDataById esRsp::%s}", esRsp)
+	if esRsp.Found {
+		by, _ := esRsp.Source.MarshalJSON()
 		source = string(by)
 	}
 	log.Es.Infof("GetESDataById end source::%s", source)
