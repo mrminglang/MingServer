@@ -1,6 +1,7 @@
 package boot
 
 import (
+	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"server/logic"
 	"server/utils/cache"
 	"server/utils/conf"
@@ -10,13 +11,17 @@ import (
 )
 
 // 启动服务设置
-func Boot() {
+func Boot(confName string) {
 	// 注册日志服务
 	log.Init()
 	log.Def.Infof("boot start......")
 
 	// 注册配置信息
-	conf.Init()
+	if confName == "" {
+		cfg := taf.GetServerConfig()
+		confName = cfg.Server + ".conf"
+	}
+	conf.Init(confName)
 
 	// 注册MySQL服务
 	_ = ormdb.Init(conf.GetConf(), "db")

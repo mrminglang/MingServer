@@ -9,6 +9,7 @@ var Roll = taf.GetLogger("roll")
 
 // 预定义按天日志（默认不支持日志级别，需要设置参数）
 var Def = taf.GetDayLogger("def", 1)     // 默认日志
+var Conf = taf.GetDayLogger("conf", 1)   // 配置日志
 var Cache = taf.GetDayLogger("cache", 1) // 缓存类日志
 var Es = taf.GetDayLogger("es", 1)
 
@@ -16,6 +17,9 @@ var Es = taf.GetDayLogger("es", 1)
 func Init() {
 	Def.SetShowLevel(true)  // 设置日志级别
 	Def.SetCallerFlag(true) // 显示代码位置
+
+	Conf.SetShowLevel(true)
+	Conf.SetCallerFlag(true)
 
 	Cache.SetShowLevel(true)
 	Cache.SetCallerFlag(true)

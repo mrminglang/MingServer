@@ -587,3 +587,423 @@ func (st *QueryPureBatchRsp) Display() string {
 	ret = ret + " }"
 	return ret
 }
+
+// ESClusters struct implement
+type ESClusters struct {
+	codec.JceStructBase
+	Host string `json:"host"`
+	Port string `json:"port"`
+}
+
+func (st *ESClusters) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *ESClusters) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_string(&st.Host, 0, false)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Port, 1, false)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *ESClusters) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require ESClusters, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *ESClusters) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_string(st.Host, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Port, 1)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *ESClusters) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *ESClusters) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("host:", st.Host)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("port:", st.Port)
+
+	ret = ret + " }"
+	return ret
+}
+
+// GetESClusterListReq struct implement
+type GetESClusterListReq struct {
+	codec.JceStructBase
+	IsCluster bool `json:"isCluster"`
+}
+
+func (st *GetESClusterListReq) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *GetESClusterListReq) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_bool(&st.IsCluster, 0, false)
+	if err != nil {
+		return err
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *GetESClusterListReq) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require GetESClusterListReq, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *GetESClusterListReq) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_bool(st.IsCluster, 0)
+	if err != nil {
+		return err
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *GetESClusterListReq) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *GetESClusterListReq) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("isCluster:", st.IsCluster)
+
+	ret = ret + " }"
+	return ret
+}
+
+// GetESClusterListRsp struct implement
+type GetESClusterListRsp struct {
+	codec.JceStructBase
+	Ret        int32        `json:"ret"`
+	Msg        string       `json:"msg"`
+	EsClusters []ESClusters `json:"esClusters"`
+}
+
+func (st *GetESClusterListRsp) ResetDefault() {
+	st.JceStructBase.ResetPrecision()
+}
+
+//ReadFrom reads  from _is and put into struct.
+func (st *GetESClusterListRsp) ReadFrom(_is *codec.Reader) error {
+	var err error
+	var length int32
+	var have bool
+	var ty byte
+	st.ResetDefault()
+
+	_is.SavePrecision()
+
+	err = _is.Read_int32(&st.Ret, 0, true)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Msg, 1, false)
+	if err != nil {
+		return err
+	}
+
+	err, have, ty = _is.SkipToNoCheck(2, false)
+	if err != nil {
+		return err
+	}
+
+	if have {
+		if ty == codec.LIST {
+			err = _is.Read_int32(&length, 0, true)
+			if err != nil {
+				return err
+			}
+
+			st.EsClusters = make([]ESClusters, length)
+			for i0, e0 := int32(0), length; i0 < e0; i0++ {
+
+				err = st.EsClusters[i0].ReadBlock(_is, 0, false)
+				if err != nil {
+					return err
+				}
+
+			}
+		} else if ty == codec.SIMPLE_LIST {
+			err = fmt.Errorf("not support simple_list type")
+			if err != nil {
+				return err
+			}
+
+		} else {
+			err = fmt.Errorf("require vector, but not")
+			if err != nil {
+				return err
+			}
+
+		}
+	}
+
+	st.SetPrecision(_is.ResumePrecision())
+
+	_ = err
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+
+//ReadBlock reads struct from the given tag , require or optional.
+func (st *GetESClusterListRsp) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+	var err error
+	var have bool
+	st.ResetDefault()
+
+	err, have = _is.SkipTo(codec.STRUCT_BEGIN, tag, require)
+	if err != nil {
+		return err
+	}
+	if !have {
+		if require {
+			return fmt.Errorf("require GetESClusterListRsp, but not exist. tag %d", tag)
+		}
+		return nil
+	}
+
+	err = st.ReadFrom(_is)
+	if err != nil {
+		return err
+	}
+
+	err = _is.SkipToStructEnd()
+	if err != nil {
+		return err
+	}
+	_ = have
+	return nil
+}
+
+//WriteTo encode struct to buffer
+func (st *GetESClusterListRsp) WriteTo(_os *codec.Buffer) error {
+	var err error
+
+	_os.SavePrecision(st.GetPrecision())
+
+	err = _os.Write_int32(st.Ret, 0)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Msg, 1)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.LIST, 2)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_int32(int32(len(st.EsClusters)), 0)
+	if err != nil {
+		return err
+	}
+
+	for _, v := range st.EsClusters {
+
+		err = v.WriteBlock(_os, 0)
+		if err != nil {
+			return err
+		}
+
+	}
+
+	_os.ResumePrecision()
+
+	_ = err
+
+	return nil
+}
+
+//WriteBlock encode struct
+func (st *GetESClusterListRsp) WriteBlock(_os *codec.Buffer, tag byte) error {
+	var err error
+	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
+	if err != nil {
+		return err
+	}
+
+	err = st.WriteTo(_os)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.STRUCT_END, 0)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//Display this struct to a string.
+func (st *GetESClusterListRsp) Display() string {
+	var ret string
+	ret = "{ "
+	ret = ret + fmt.Sprint("ret:", st.Ret)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("msg:", st.Msg)
+	ret = ret + ",  "
+	ret = ret + fmt.Sprint("esClusters:", st.EsClusters)
+
+	ret = ret + " }"
+	return ret
+}

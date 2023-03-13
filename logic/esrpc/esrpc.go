@@ -39,19 +39,14 @@ func QueryPureBatch(esReq FCS.QueryPureBatchReq) (esRsp FCS.QueryPureBatchRsp, e
 	return
 }
 
-//获取文章列表
-//func GetArticleListFromES(req *Bar.GetListReq) comm.ES_Article_List {
-//	log.Es.DebInfofugf("{GetArticleList req}|%s", req.Display())
-//	reqJson := getArticleReqJson(req)
-//	log.ES.Debugf("{articleReqJson json}|%s", reqJson)
-//	var esReq FCS.QueryPureReq
-//	esReq.Method = "POST"
-//	esReq.Path = "/" + articleIndexName + "/_search"
-//	esReq.PostBody = reqJson
-//	var esRsp FCS.QueryPureRsp
-//	esPrx.QueryPure(&esReq, &esRsp)
-//	var esRspData comm.ES_Article_List
-//	json.Unmarshal([]byte(esRsp.JsonRsp), &esRspData)
-//
-//	return esRspData
-//}
+// RPC 获取ES集群配置列表
+func GetESClusterList(esReq FCS.GetESClusterListReq) (esRsp FCS.GetESClusterListRsp, err error) {
+	log.Es.Infof("{ES RPC GetESClusterList req::%s}", esReq.Display())
+	_, err = esPrx.GetESClusterList(&esReq, &esRsp)
+	if err != nil {
+		log.Es.Errorf("{ES RPC GetESClusterList error::%s}", err.Error())
+		return
+	}
+	log.Es.Infof("{ES RPC GetESClusterList esRsp::%s}", esRsp.Display())
+	return
+}

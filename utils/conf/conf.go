@@ -1,32 +1,28 @@
 package conf
 
 import (
-	"fmt"
-	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
+	"server/utils/log"
 	"server/utils/taftool"
 )
 
 var Conf *conf.Conf
 
 // 初始化配置
-func Init() {
-	fmt.Printf("init config start ......\n")
-	cfg := taf.GetServerConfig()
-	fmt.Printf("init config Server::%s\n", cfg.Server)
-	confName := cfg.Server + ".conf"
-	fmt.Printf("init config confName::::%s\n", confName)
+func Init(confName string) {
+	log.Conf.Infof("init config start......")
+	log.Conf.Infof("init config confName::", confName)
 	confs, err := taftool.GetTafConfigByName(confName)
 	if err != nil {
-		_ = fmt.Errorf("init config error::%s\n", err.Error())
+		log.Conf.Errorf("init config error::", err.Error())
 		return
 	}
 	if confs == nil {
-		_ = fmt.Errorf("init config is null")
+		log.Conf.Errorf("init config is null")
 		return
 	}
 	Conf = confs
-	fmt.Printf("init config success......\n")
+	log.Conf.Infof("init config success......")
 }
 
 // 获取配置

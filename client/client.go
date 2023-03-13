@@ -7,6 +7,19 @@ import (
 	"server/utils/log"
 )
 
+func main() {
+	comm := taf.NewCommunicator()
+	obj := fmt.Sprintf("MingApp.MingServer.MingHelloObj@tcp -h 127.0.0.1 -p 20230 -t 60000")
+	app := new(MingApp.MingHello)
+	comm.StringToProxy(obj, app)
+
+	// 单元测试使用
+	//getTeacherList(app)
+	//setESData(app)
+	//getESDataById(app)
+
+}
+
 func getTeacherList(app *MingApp.MingHello) {
 	req := new(MingApp.GetTeacherListReq)
 	rsp := new(MingApp.GetTeacherListRsp)
@@ -54,15 +67,4 @@ func getESDataById(app *MingApp.MingHello) {
 	}
 	fmt.Printf("getTeacherList rst::%d", ret)
 	fmt.Printf("getTeacherList rsp::%s", rsp.Display())
-}
-
-func main() {
-	comm := taf.NewCommunicator()
-	obj := fmt.Sprintf("MingApp.MingServer.MingHelloObj@tcp -h 127.0.0.1 -p 20230 -t 60000")
-	app := new(MingApp.MingHello)
-	comm.StringToProxy(obj, app)
-
-	//getTeacherList(app)
-	setESData(app)
-	getESDataById(app)
 }

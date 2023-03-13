@@ -21,6 +21,21 @@ module FCS
 		0 optional map<int,QueryPureRsp> indexId2Rsp;
 	};
 
+    struct ESClusters {
+        0 optional string host;   // host地址
+        1 optional string port; // 端口
+    };
+
+	struct GetESClusterListReq {
+        0 optional bool isCluster;
+    };
+
+    struct GetESClusterListRsp {
+        0 require int ret;
+        1 optional string msg;
+        2 optional vector<ESClusters> esClusters;
+    };
+
 	interface ESDriver
 	{
 		//原始请求es
@@ -28,5 +43,8 @@ module FCS
 
 		//原始请求es 批量版本
 		int queryPureBatch(QueryPureBatchReq req, out QueryPureBatchRsp rsp);
+
+		//获取ES集群配置列表
+		int getESClusterList(GetESClusterListReq req,out GetESClusterListRsp rsp);
 	};
 };

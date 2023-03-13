@@ -13,7 +13,7 @@ func main() {
 	cfg := taf.GetServerConfig()
 
 	// 启动boot
-	boot.Boot()
+	boot.Boot("")
 
 	// New servant imp
 	{

@@ -5,3 +5,4 @@ tmp/
 node_modules/
 *.tgz
 vendor
+*.log

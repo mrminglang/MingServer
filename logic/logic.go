@@ -19,7 +19,7 @@ func Init(conf *conf.Conf) {
 
 	// ESDriverServer rpc
 	esObj := conf.GetString("/obj/<esObj>")
-	log.Def.Infof("esrpc.Init esObj::", esObj)
+	log.Es.Infof("esrpc.Init esObj::", esObj)
 	//初始化es模块
 	esrpc.Init(esObj)
 }

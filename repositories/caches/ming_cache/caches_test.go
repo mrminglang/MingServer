@@ -1,25 +1,41 @@
 package ming_cache_test
 
 import (
-	"MingServer/repositories/caches/ming_cache"
 	"github.com/mrminglang/tools/dumps"
-	genid "github.com/srlemon/gen-id"
 	"github.com/stretchr/testify/assert"
+	"server/boot"
+	"server/repositories/caches/ming_cache"
 	"testing"
 )
 
-func TestSetStructExCache(t *testing.T) {
+func TestMain(m *testing.M) {
+	// 绝对路径
+	confName := "/Users/ming/work/up/MingApp/MingServer/MingServer.conf"
+	boot.Boot(confName)
+	m.Run()
+}
 
-	key := "20230303"
-	value := ming_cache.User{
-		Name: genid.NewGeneratorData().Name,
-	}
+func TestSetStringCache(t *testing.T) {
+	key := "key-20230313"
+	value := "value-20230313"
 
-	ret, err := ming_cache.SetStructExCache(key, value)
+	ret, err := ming_cache.SetStringCache(key, value)
 	if err != nil {
 		assert.Error(t, err)
 		return
 	}
 
 	dumps.Dump(ret)
+}
+
+func TestGetStringCache(t *testing.T) {
+	key := "key-20230313"
+	ret, err, rsp := ming_cache.GetStringCache(key)
+	if err != nil {
+		assert.Error(t, err)
+		return
+	}
+
+	dumps.Dump(ret)
+	dumps.Dump(rsp)
 }
