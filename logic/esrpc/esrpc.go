@@ -11,6 +11,7 @@ var esPrx FCS.ESDriver
 func Init(esObj string) {
 	//初始化esrpc链接
 	log.Es.Infof("init esrpc server start....")
+	log.Es.Infof("init esrpc server esObj::", esObj)
 	taftool.InitTafPrx(&esPrx, esObj)
 	log.Es.Infof("init esrpc server success....")
 }
