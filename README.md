@@ -15,5 +15,5 @@
     - 参考：`utils/ormdb/ormdb.go`
 - [x] 缓存`DCache`连接
     - 参考：`utils/cache/cache.go`
-- [x] 配置`esdb`连接
+- [x] 配置`esdb`连接，支持集群链接
   - 参考：`utils/esdb/esdb.go`

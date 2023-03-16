@@ -24,9 +24,9 @@ func Init(conf *conf.Conf) {
 // 获取老师列表
 func GetTeacherList(_ context.Context, req *MingApp.GetTeacherListReq, rsp *MingApp.GetTeacherListRsp) (ret int32, err error) {
 	startTime := time.Now().UnixMilli()
-	log.Def.Infof("{GetTeacherList start req}|%s", req.Display())
+	log.Data.Infof("{GetTeacherList start req}|%s", req.Display())
 	if req.BeginIndex < 0 || req.Count <= 0 {
-		log.Def.Errorf("{GetTeacherList req param is failed}|%s|%d", "参数错误！", time.Now().UnixMilli()-startTime)
+		log.Data.Errorf("{GetTeacherList req param is failed}|%s|%d", "参数错误！", time.Now().UnixMilli()-startTime)
 		return
 	}
 
@@ -39,11 +39,11 @@ func GetTeacherList(_ context.Context, req *MingApp.GetTeacherListReq, rsp *Ming
 	}
 	total, teachers, err := teacher_repository.QueryTeachers(int(req.BeginIndex), int(req.Count), whereMaps)
 	if err != nil {
-		log.Def.Errorf("{GetTeacherList QueryTeachers error}|%s|%d", err.Error(), time.Now().UnixMilli()-startTime)
+		log.Data.Errorf("{GetTeacherList QueryTeachers error}|%s|%d", err.Error(), time.Now().UnixMilli()-startTime)
 		return ret, nil
 	}
 	if total <= 0 {
-		log.Def.Errorf("{GetTeacherList QueryTeachers rsp is null}|%s|%d", "请求数据为空！", time.Now().UnixMilli()-startTime)
+		log.Data.Errorf("{GetTeacherList QueryTeachers rsp is null}|%s|%d", "请求数据为空！", time.Now().UnixMilli()-startTime)
 		return
 	}
 
@@ -56,7 +56,7 @@ func GetTeacherList(_ context.Context, req *MingApp.GetTeacherListReq, rsp *Ming
 		rsp.Teachers = append(rsp.Teachers, tmp)
 	}
 
-	log.Def.Infof("{GetTeacherList end rsp}|%s|%d", rsp.Display(), time.Now().UnixMilli()-startTime)
+	log.Data.Infof("{GetTeacherList end rsp}|%s|%d", rsp.Display(), time.Now().UnixMilli()-startTime)
 	return ret, nil
 }
 

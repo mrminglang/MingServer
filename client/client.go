@@ -50,8 +50,8 @@ func setESData(app *MingApp.MingHello) {
 		log.Es.Errorf("setESData error::%s", err.Error())
 		return
 	}
-	fmt.Printf("getTeacherList rst::%d", ret)
-	fmt.Printf("getTeacherList rsp::%s", rsp.Display())
+	fmt.Printf("SetESData rst::%d", ret)
+	fmt.Printf("SetESData rsp::%s", rsp.Display())
 }
 
 func getESDataById(app *MingApp.MingHello) {
@@ -65,6 +65,6 @@ func getESDataById(app *MingApp.MingHello) {
 		log.Es.Errorf("setESData error::%s", err.Error())
 		return
 	}
-	fmt.Printf("getTeacherList rst::%d", ret)
-	fmt.Printf("getTeacherList rsp::%s", rsp.Display())
+	fmt.Printf("GetESDataById rst::%d", ret)
+	fmt.Printf("GetESDataById rsp::%s", rsp.Display())
 }

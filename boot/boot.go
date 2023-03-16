@@ -29,11 +29,11 @@ func Boot(confName string) {
 	// 注册DCache服务
 	cache.Init(conf.GetConf())
 
-	// 注册es服务
-	esdb.Init(conf.GetConf())
-
 	//初始化业务逻辑
 	logic.Init(conf.GetConf())
+
+	// 注册es服务
+	esdb.Init(conf.GetConf())
 
 	log.Def.Infof("boot success......")
 }

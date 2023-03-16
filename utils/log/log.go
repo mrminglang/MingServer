@@ -12,6 +12,7 @@ var Def = taf.GetDayLogger("def", 1)     // 默认日志
 var Conf = taf.GetDayLogger("conf", 1)   // 配置日志
 var Cache = taf.GetDayLogger("cache", 1) // 缓存类日志
 var Es = taf.GetDayLogger("es", 1)
+var Data = taf.GetDayLogger("data", 1)
 
 // 启动日志设置
 func Init() {
@@ -26,6 +27,9 @@ func Init() {
 
 	Es.SetShowLevel(true)
 	Es.SetCallerFlag(true)
+
+	Data.SetShowLevel(true)
+	Data.SetCallerFlag(true)
 }
 
 // 关闭日志设置
