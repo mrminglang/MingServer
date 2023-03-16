@@ -35,7 +35,7 @@ func Init(conf *conf.Conf) {
 		elastic.SetBasicAuth(conf.GetString("/esConf/<username>"), conf.GetString("/esConf/<password>")),
 		elastic.SetHealthcheckInterval(time.Second*5), // 心跳
 		elastic.SetMaxRetries(3), // 重试次数
-		elastic.SetSniff(false),
+		elastic.SetSniff(false),  // 嗅探器:默认启用
 	)
 	if err != nil {
 		log.Es.Errorf("{esdb init error|%s}", err.Error())
@@ -49,11 +49,12 @@ func Init(conf *conf.Conf) {
 			continue
 		}
 
-		_, err = client.ElasticsearchVersion(host)
+		version, err := client.ElasticsearchVersion(host)
 		if err != nil {
 			log.Es.Errorf("{esdb init ElasticsearchVersion error|%s}", err.Error())
 			continue
 		}
+		log.Es.Infof("{esdb init ElasticsearchVersion host^version |%s|%s}", host, version)
 	}
 
 	Client = client
