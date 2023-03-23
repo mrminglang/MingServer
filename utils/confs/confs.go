@@ -11,7 +11,7 @@ import (
 var ConfName2Ptr = make(map[string]*conf.Conf)
 
 // 初始化配置
-func Init(confNames []string) {
+func Init(confNames []string) error {
 	log.Conf.Infof("init config start......")
 	cfg := taf.GetServerConfig()
 	if len(confNames) <= 0 {
@@ -25,17 +25,18 @@ func Init(confNames []string) {
 		confPtr, err := taftool.GetTafConfigByName(name + ".conf")
 		if err != nil {
 			log.Conf.Errorf("init config for name:: error::", name, err.Error())
-			return
+			return err
 		}
 		if confPtr == nil {
 			log.Conf.Errorf("init config for is null name::", name)
-			return
+			return err
 		}
 		ConfName2Ptr[name] = confPtr
 		log.Conf.Infof("init config for success name::", name)
 	}
 
 	log.Conf.Infof("init config success......", ConfName2Ptr)
+	return nil
 }
 
 // 获取配置

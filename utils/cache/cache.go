@@ -11,10 +11,11 @@ var MingCacheModule = ""
 var MingCachePrx *dcache.CacheProxy
 
 // 初始化DCache模块
-func Init(conf *conf.Conf) {
+func Init(conf *conf.Conf) error {
 	log.Cache.Infof("init DCache start ......")
 	// Ming缓存dcache初始化
 	MingCacheModule = conf.GetString("/app/<mingCacheModule>")
 	MingCachePrx = dcache.NewCacheProxy(conf.GetString("/obj/<mingCacheObj>"))
 	log.Cache.Infof("init DCache success ......")
+	return nil
 }

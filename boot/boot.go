@@ -13,7 +13,7 @@ import (
 )
 
 // 启动服务设置
-func Boot(confNames []string, serverName string) {
+func Boot(confNames []string, serverName string) error {
 	if serverName == "" {
 		serverName = taf.GetServerConfig().Server
 	}
@@ -23,21 +23,42 @@ func Boot(confNames []string, serverName string) {
 	log.Def.Infof("boot start......")
 
 	// 注册配置信息
-	confs.Init(confNames)
+	err := confs.Init(confNames)
+	if err != nil {
+		log.Def.Errorf("boot confs error::", err.Error())
+		return err
+	}
 
 	// 注册MySQL服务
-	_ = ormdb.Init(confs.GetConf(serverName), "db")
+	err = ormdb.Init(confs.GetConf(serverName), "db")
+	if err != nil {
+		log.Def.Errorf("boot ormdb error::", err.Error())
+		return err
+	}
 
 	// 注册DCache服务
-	cache.Init(confs.GetConf(serverName))
+	err = cache.Init(confs.GetConf(serverName))
+	if err != nil {
+		log.Def.Errorf("boot DCache error::", err.Error())
+		return err
+	}
 
 	//初始化业务逻辑
-	logic.Init(confs.GetConf(serverName))
+	err = logic.Init(confs.GetConf(serverName))
+	if err != nil {
+		log.Def.Errorf("boot logic error::", err.Error())
+		return err
+	}
 
 	// 注册es服务
-	esdb.Init(confs.GetConf(serverName))
+	err = esdb.Init(confs.GetConf(serverName))
+	if err != nil {
+		log.Def.Errorf("boot esdb error::", err.Error())
+		return err
+	}
 
 	log.Def.Infof("boot success......")
+	return nil
 }
 
 // 关闭服务设置

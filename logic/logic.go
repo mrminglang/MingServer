@@ -15,10 +15,12 @@ import (
 )
 
 // 初始化业务逻辑
-func Init(conf *conf.Conf) {
+func Init(conf *conf.Conf) error {
 
 	// ESDriverServer rpc
 	esrpc.Init(conf.GetString("/obj/<esObj>"))
+
+	return nil
 }
 
 // 获取老师列表

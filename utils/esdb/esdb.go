@@ -13,14 +13,14 @@ import (
 
 var Client *elastic.Client
 
-func Init(conf *conf.Conf) {
+func Init(conf *conf.Conf) error {
 	log.Es.Infof("{esdb init start......}")
 
 	// 获取ES集群配置
 	esRsp, err := esrpc.GetESClusterList(FCS.GetESClusterListReq{})
 	if err != nil {
 		log.Es.Errorf("{esdb init GetESClusterList error|%s}", err.Error())
-		return
+		return err
 	}
 
 	hosts := make([]string, 0)
@@ -39,7 +39,7 @@ func Init(conf *conf.Conf) {
 	)
 	if err != nil {
 		log.Es.Errorf("{esdb init error|%s}", err.Error())
-		return
+		return err
 	}
 
 	for _, host := range hosts {
@@ -59,5 +59,5 @@ func Init(conf *conf.Conf) {
 
 	Client = client
 	log.Es.Infof("{esdb init success......}")
-	return
+	return nil
 }

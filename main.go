@@ -13,14 +13,18 @@ func main() {
 	cfg := taf.GetServerConfig()
 
 	// 启动boot
-	boot.Boot([]string{}, cfg.Server)
+	err := boot.Boot([]string{}, cfg.Server)
+	if err != nil {
+		fmt.Printf("MingHelloImp init boot, err:(%s)\n", err.Error())
+		os.Exit(-1)
+	}
 
 	// New servant imp
 	{
 		imp := new(MingHelloImp)
-		err := imp.Init()
+		err = imp.Init()
 		if err != nil {
-			fmt.Printf("MingHelloImp init fail, err:(%s)\n", err)
+			fmt.Printf("MingHelloImp init fail, err:(%s)\n", err.Error())
 			os.Exit(-1)
 		}
 		app := new(MingApp.MingHello)                                          // New servant
