@@ -12,8 +12,9 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	confName := "/Users/ming/work/up/MingApp/MingServer/MingServer.conf"
-	boot.Boot(confName)
+	serverName := "MingServer"
+	confName := boot.RootPath() + "/" + serverName
+	boot.Boot([]string{confName}, confName)
 	m.Run()
 }
 

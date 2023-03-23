@@ -11,8 +11,8 @@ import (
 
 func TestMain(m *testing.M) {
 	// 绝对路径
-	confName := "/Users/ming/work/up/MingApp/MingServer/MingServer.conf"
-	boot.Boot(confName)
+	confName := "/Users/ming/work/up/MingApp/MingServer/MingServer"
+	boot.Boot([]string{confName})
 	m.Run()
 }
 

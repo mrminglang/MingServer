@@ -9,13 +9,12 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	// 绝对路径
-	confName := "/Users/ming/work/up/MingApp/MingServer/MingServer.conf"
-	boot.Boot(confName)
+	serverName := "MingServer"
+	confName := boot.RootPath() + "/" + serverName
+	boot.Boot([]string{confName}, confName)
 	m.Run()
 }
 
-// go test -v -run TestQueryTeachers teacher_test.go
 func TestQueryTeachers(t *testing.T) {
 	whereMaps := map[string]string{
 		"nickname": "张三",

@@ -9,15 +9,14 @@ import (
 )
 
 func main() {
+	// Get server config
+	cfg := taf.GetServerConfig()
 
 	// 启动boot
-	boot.Boot("")
+	boot.Boot([]string{}, cfg.Server)
 
 	// New servant imp
 	{
-		// Get server config
-		cfg := taf.GetServerConfig()
-
 		imp := new(MingHelloImp)
 		err := imp.Init()
 		if err != nil {
