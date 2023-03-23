@@ -10,10 +10,10 @@ import (
 	"testing"
 )
 
+var serverName = boot.RootPath() + "/MingServer"
+
 func TestMain(m *testing.M) {
-	serverName := "MingServer"
-	confName := boot.RootPath() + "/" + serverName
-	boot.Boot([]string{confName}, confName)
+	boot.Boot([]string{serverName}, serverName)
 	m.Run()
 }
 
