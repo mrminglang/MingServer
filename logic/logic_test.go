@@ -14,7 +14,7 @@ import (
 var serverName = boot.RootPath() + "/MingServer"
 
 func TestMain(m *testing.M) {
-	boot.Boot([]string{serverName}, serverName)
+	_ = boot.Boot([]string{serverName}, serverName)
 	m.Run()
 }
 
