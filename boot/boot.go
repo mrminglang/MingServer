@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"server/logic"
-	"server/utils/cache"
 	"server/utils/confs"
 	"server/utils/esdb"
 	"server/utils/log"
@@ -33,13 +32,6 @@ func Boot(confNames []string, serverName string) error {
 	err = ormdb.Init(confs.GetConf(serverName), "db")
 	if err != nil {
 		log.Def.Errorf("boot ormdb error::", err.Error())
-		return err
-	}
-
-	// 注册DCache服务
-	err = cache.Init(confs.GetConf(serverName))
-	if err != nil {
-		log.Def.Errorf("boot DCache error::", err.Error())
 		return err
 	}
 

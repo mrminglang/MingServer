@@ -4,12 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
-	"server/logic/esrpc"
 	"server/repositories/caches/ming_cache"
 	"server/repositories/es/es_repository"
 	"server/repositories/mysql/teacher_repository"
 	"server/taf-protocol/MingApp"
 	"server/utils/log"
+	"server/utils/trpc"
 	"strconv"
 	"time"
 )
@@ -18,7 +18,20 @@ import (
 func Init(conf *conf.Conf) error {
 
 	// ESDriverServer rpc
-	esrpc.Init(conf.GetString("/obj/<esObj>"))
+	err := trpc.ESInit(conf.GetString("/obj/<esObj>"))
+	if err != nil {
+		log.Es.Infof("{logic init esinit error::}", err.Error())
+		return err
+	}
+
+	// DCache.MingProxyServer rpc
+	mcModule := conf.GetString("/app/<mingCacheModule>")
+	mcObj := conf.GetString("/obj/<mingCacheObj>")
+	err = trpc.MCInit(mcModule, mcObj)
+	if err != nil {
+		log.Cache.Infof("{logic init mcinit error::}", err.Error())
+		return err
+	}
 
 	return nil
 }

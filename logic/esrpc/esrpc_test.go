@@ -12,7 +12,10 @@ import (
 func TestMain(m *testing.M) {
 	serverName := "MingServer"
 	confName := boot.RootPath() + "/" + serverName
-	boot.Boot([]string{confName}, confName)
+	err := boot.Boot([]string{confName}, confName)
+	if err != nil {
+		return
+	}
 	m.Run()
 }
 
