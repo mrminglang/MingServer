@@ -45,13 +45,13 @@ func Init(conf *conf.Conf) error {
 	for _, host := range hosts {
 		_, _, err := client.Ping(host).Do(context.Background())
 		if err != nil {
-			log.Es.Errorf("{esdb init Ping error|%s}", err.Error())
+			log.Es.Errorf("{esdb init Ping host^error|%s|%s}", host, err.Error())
 			continue
 		}
 
 		version, err := client.ElasticsearchVersion(host)
 		if err != nil {
-			log.Es.Errorf("{esdb init ElasticsearchVersion error|%s}", err.Error())
+			log.Es.Errorf("{esdb init ElasticsearchVersion host^error|%s|%s}", host, err.Error())
 			continue
 		}
 		log.Es.Infof("{esdb init ElasticsearchVersion host^version |%s|%s}", host, version)
