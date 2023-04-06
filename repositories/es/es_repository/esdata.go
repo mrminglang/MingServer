@@ -2,8 +2,11 @@ package es_repository
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/olivere/elastic/v7"
+	"reflect"
 	"server/utils/esdb"
 	"server/utils/log"
 )
@@ -78,15 +81,19 @@ func IndexExists(indices []string) (ok bool, err error) {
 }
 
 // 创建索引
-func CreateIndex(name string) (rsp *elastic.IndicesCreateResult, err error) {
+func CreateIndex(name string, body string) (rsp *elastic.IndicesCreateResult, err error) {
 	log.Es.Infof("{CreateIndex start......}")
 	if ok, _ := IndexExists([]string{name}); ok {
 		err = errors.New(name + "索引已存在")
 		log.Es.Errorf("{CreateIndex is exist error::}", err.Error())
 		return
 	}
+	if body == "" {
+		rsp, err = esdb.Client.CreateIndex(name).Do(context.TODO())
+	} else {
+		rsp, err = esdb.Client.CreateIndex(name).BodyString(body).Do(context.TODO())
+	}
 
-	rsp, err = esdb.Client.CreateIndex(name).Do(context.TODO())
 	if err != nil {
 		log.Es.Errorf("{CreateIndex error::}", err.Error())
 		return
@@ -116,10 +123,14 @@ func DeleteIndex(indices []string) (rsp *elastic.IndicesDeleteResponse, err erro
 }
 
 // 创建ES数据
-func SetESData(indexName string, typ string, id string, body interface{}) (ret int32, err error) {
-	log.Es.Infof("{SetESData start indexName::%s, id::%s, body::%s}", indexName, id, body)
+func SetESData(index string, typ string, id string, body interface{}) (ret int32, err error) {
+	log.Es.Infof("{SetESData start index::%s, id::%s, body::%s}", index, id, body)
+	if typ == "" {
+		typ = index
+	}
+
 	esRsp, err := esdb.Client.Index().
-		Index(indexName).
+		Index(index).
 		Type(typ).
 		Id(id).
 		BodyJson(body).
@@ -134,10 +145,10 @@ func SetESData(indexName string, typ string, id string, body interface{}) (ret i
 }
 
 // 查找ES数据 BY id
-func GetESDataById(indexName string, typ string, id string) (source string, err error) {
-	log.Es.Infof("{GetESDataById start indexName::%s, id::%s}", indexName, id)
+func GetESDataById(index string, typ string, id string) (source string, err error) {
+	log.Es.Infof("{GetESDataById start indexName::%s, id::%s}", index, id)
 	esRsp, err := esdb.Client.Get().
-		Index(indexName).
+		Index(index).
 		Type(typ).
 		Id(id).
 		Do(context.Background())
@@ -151,5 +162,65 @@ func GetESDataById(indexName string, typ string, id string) (source string, err 
 		source = string(by)
 	}
 	log.Es.Infof("GetESDataById end source::%s", source)
+	return
+}
+
+// 查询ES数据，支持对象，数组类型
+func QueryESData(
+	index string,
+	query elastic.Query,
+	from int,
+	size int,
+	result interface{},
+	sorter ...elastic.Sorter,
+) (totalCount int, rsp []interface{}, err error) {
+	if size == 0 {
+		size = 10 // 默认取10条数据
+	}
+	querySql, _ := QueryESSourceSql(query)
+	log.Es.Infof("{QueryESData start index::%s, querySql::%s, from::%d, size::%d, querySql::%s}", index, querySql, from, size, query)
+	esRsp, err := esdb.Client.Search().
+		Index(index).
+		Query(query).
+		SortBy(sorter...). // 排序:支持多字段排序
+		From(from).        // 分页:偏移量，从0开始
+		Size(size).        // 分页:偏移数，每页数量
+		Pretty(true).      // JSON格式
+		Do(context.Background())
+	if err != nil {
+		log.Es.Errorf("{QueryESData error::%s}", err.Error())
+		return
+	}
+
+	log.Es.Infof(fmt.Sprintf("{QueryESData esRsp 查询消耗时间 %d ms, 结果总数: %d }", esRsp.TookInMillis, esRsp.TotalHits()))
+	if esRsp.TotalHits() <= 0 {
+		err = errors.New("查询ES数据为空")
+		log.Es.Errorf("QueryESData esRsp is null error::", err.Error())
+		return
+	}
+
+	totalCount = int(esRsp.TotalHits())
+	for _, i := range esRsp.Each(reflect.TypeOf(result)) {
+		tmp := i.(interface{})
+		rsp = append(rsp, tmp)
+	}
+
+	log.Es.Infof("QueryESData end rsp::%s", rsp)
+	return
+}
+
+// 查询语句SQL化
+func QueryESSourceSql(query elastic.Query) (str string, err error) {
+	src, err := query.Source()
+	if err != nil {
+		log.Es.Errorf("QueryESSql Source error::", err.Error())
+		return
+	}
+	data, err := json.Marshal(src)
+	if err != nil {
+		log.Es.Errorf("QueryESSql marshaling to JSON error::", err.Error())
+		return
+	}
+	str = string(data)
 	return
 }
