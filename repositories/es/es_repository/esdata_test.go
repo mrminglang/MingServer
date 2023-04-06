@@ -185,9 +185,13 @@ func TestGetESDataById(t *testing.T) {
 func TestQueryESData(t *testing.T) {
 	index := "person"
 
+	// 分页
+	from := 0  // 偏移数
+	size := 10 // 偏移量
+
 	// 字段查询
-	//tq := elastic.NewTermQuery("name", "lisi")
-	//totalCount1, rsp1, err1 := es_repository.QueryESData(indexName, tq, 0, 10, Person{})
+	//tq1 := elastic.NewTermQuery("name", "lisi")
+	//totalCount1, rsp1, err1 := es_repository.QueryESData(index, tq1, from, size, Person{})
 	//if err1 != nil {
 	//	assert.Error(t, err1)
 	//	return
@@ -197,10 +201,11 @@ func TestQueryESData(t *testing.T) {
 
 	// 对象查询
 	//bq := elastic.NewBoolQuery()
-	//mq := elastic.NewMatchQuery("address.city", "北京")
+	//mq1 := elastic.NewMatchQuery("address.city", "北京")
 	//mq2 := elastic.NewMatchQuery("address.state", "京")
+	//qObj := bq.Must(mq1, mq2)
 	//
-	//totalCount, rsp, err := es_repository.QueryESData(indexName, queryObj, 0, 10, Person{})
+	//totalCount, rsp, err := es_repository.QueryESData(index, qObj, from, size, Person{})
 	//if err != nil {
 	//	assert.Error(t, err)
 	//	return
@@ -223,7 +228,7 @@ func TestQueryESData(t *testing.T) {
 	sorter1 := elastic.NewFieldSort("birth").Asc()
 	sorter2 := elastic.NewFieldSort("age").Desc()
 
-	totalCount2, rsp2, err2 := es_repository.QueryESData(index, query, 0, 10, Person{}, sorter1, sorter2)
+	totalCount2, rsp2, err2 := es_repository.QueryESData(index, query, from, size, Person{}, sorter1, sorter2)
 	if err2 != nil {
 		assert.Error(t, err2)
 		return

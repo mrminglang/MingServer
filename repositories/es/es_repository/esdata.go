@@ -183,8 +183,8 @@ func QueryESData(
 		Index(index).
 		Query(query).
 		SortBy(sorter...). // 排序:支持多字段排序
-		From(from).        // 分页:偏移量，从0开始
-		Size(size).        // 分页:偏移数，每页数量
+		From(from).        // 分页:偏移数，从0开始
+		Size(size).        // 分页:偏移量，每页数量
 		Pretty(true).      // JSON格式
 		Do(context.Background())
 	if err != nil {
