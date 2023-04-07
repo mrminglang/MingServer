@@ -203,9 +203,9 @@ func TestQueryESData(t *testing.T) {
 	//bq := elastic.NewBoolQuery()
 	//mq1 := elastic.NewMatchQuery("address.city", "北京")
 	//mq2 := elastic.NewMatchQuery("address.state", "京")
-	//qObj := bq.Must(mq1, mq2)
 	//
-	//totalCount, rsp, err := es_repository.QueryESData(index, qObj, from, size, Person{})
+	//bq = bq.Must(mq1, mq2)
+	//totalCount, rsp, err := es_repository.QueryESData(index, bq, from, size, Person{})
 	//if err != nil {
 	//	assert.Error(t, err)
 	//	return
@@ -217,7 +217,14 @@ func TestQueryESData(t *testing.T) {
 	bq := elastic.NewBoolQuery()
 	mq := elastic.NewMatchQuery("cars.brand", "BYD")
 	tq := elastic.NewTermQuery("cars.colour", "红色")
+
+	// where in 条件
+	//values := make([]interface{}, 0)
+	//values = append(values, 25, 26, 30)
+	//tsq := elastic.NewTermsQuery("age", values...)
+
 	bq = bq.Must(mq, tq)
+
 	ih := elastic.NewInnerHit().Sort("cars.brand", true)
 	nq := elastic.NewNestedQuery("cars", bq)
 
