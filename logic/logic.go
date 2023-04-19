@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
 	"server/repositories/dcache_repository"
-	"server/repositories/es/es_repository"
+	"server/repositories/es_repository"
 	"server/repositories/teacher_repository"
 	"server/taf-protocol/MingApp"
 	"server/utils/log"

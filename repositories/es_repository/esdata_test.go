@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"server/boot"
 	"server/common"
-	"server/repositories/es/es_repository"
+	"server/repositories/es_repository"
 	"strconv"
 	"testing"
 	"time"

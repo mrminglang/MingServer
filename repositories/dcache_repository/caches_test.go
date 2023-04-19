@@ -20,7 +20,7 @@ func TestSetStringCache(t *testing.T) {
 	value := "value-20230419"
 
 	newRepo := dcache_repository.NewDCacheRepo
-	ret, err := newRepo.SetStringCache(key, value, "cnews")
+	ret, err := newRepo.SetStringCache(key, value, "ming")
 	if err != nil {
 		assert.Error(t, err)
 		return
@@ -33,7 +33,7 @@ func TestGetStringCache(t *testing.T) {
 	newRepo := dcache_repository.NewDCacheRepo
 
 	key := "key-20230419"
-	ret, err, rsp := newRepo.GetStringCache(key, "cnews")
+	ret, err, rsp := newRepo.GetStringCache(key, "ming")
 	if err != nil {
 		assert.Error(t, err)
 		return
