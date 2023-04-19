@@ -19,14 +19,14 @@ func GetTafConfigByName(confName string) (*conf.Conf, error) {
 		fmt.Printf("{getRemoteConf confName^content}|%s|%s\n", confName, remoteConfContent)
 		confName = tafConf.BasePath + "/" + confName
 	}
-	conf, err := conf.NewConf(confName)
-	contentParse := conf.ToString()
+	newConf, err := conf.NewConf(confName)
+	contentParse := newConf.ToString()
 	fmt.Println("{parseConfRes}", contentParse)
 	if err != nil {
 		fmt.Printf("{newConfError confName^err}|%s|%s\n", confName, err.Error())
 	}
 
-	return conf, err
+	return newConf, err
 }
 
 //返回 是否在本地环境

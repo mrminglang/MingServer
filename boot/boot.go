@@ -9,6 +9,7 @@ import (
 	"server/utils/esdb"
 	"server/utils/log"
 	"server/utils/ormdb"
+	"server/utils/trpc"
 )
 
 // 启动服务设置
@@ -35,10 +36,10 @@ func Boot(confNames []string, serverName string) error {
 		return err
 	}
 
-	//初始化业务逻辑
-	err = logic.Init(confs.GetConf(serverName))
+	// ESDriverServer rpc
+	err = trpc.ESInit(confs.GetConf(serverName).GetString("/obj/<esObj>"))
 	if err != nil {
-		log.Def.Errorf("boot logic error::", err.Error())
+		log.Def.Infof("{boot esinit error::}", err.Error())
 		return err
 	}
 
@@ -46,6 +47,20 @@ func Boot(confNames []string, serverName string) error {
 	err = esdb.Init(confs.GetConf(serverName))
 	if err != nil {
 		log.Def.Errorf("boot esdb error::", err.Error())
+		return err
+	}
+
+	// 注册DCache服务
+	err = trpc.DCacheInit(confs.GetConf(serverName), "dcache")
+	if err != nil {
+		log.Def.Errorf("boot DCache error::", err.Error())
+		return err
+	}
+
+	//初始化业务逻辑
+	err = logic.Init(confs.GetConf(serverName))
+	if err != nil {
+		log.Def.Errorf("boot logic error::", err.Error())
 		return err
 	}
 

@@ -20,12 +20,13 @@ func TestMain(m *testing.M) {
 }
 
 type Person struct {
-	Name    string  `json:"name"`
-	Age     int     `json:"age"`
-	Birth   string  `json:"birth"`
-	Bool    bool    `json:"bool"`
-	Address address `json:"address"`
-	Cars    []car   `json:"cars"`
+	Name    string              `json:"name"`
+	Age     int                 `json:"age"`
+	Birth   string              `json:"birth"`
+	Bool    bool                `json:"bool"`
+	Address address             `json:"address"`
+	Cars    []car               `json:"cars"`
+	Class   map[string][]string `json:"class"`
 }
 
 type address struct {
@@ -82,11 +83,11 @@ func TestIndexExists(t *testing.T) {
 }
 
 func TestCreateIndex(t *testing.T) {
-	name := "person_index_trans"
+	name := "person_index_trans2"
 	body := `
 {
   "aliases": {
-    "person": {}
+    "person2": {}
   },
   "mappings": {
     "properties": {
@@ -110,6 +111,13 @@ func TestCreateIndex(t *testing.T) {
           "brand": {"type": "keyword"},
           "colour": {"type": "keyword"},
 		  "model": {"type": "keyword"}
+        }
+      },
+      "class": {
+        "type": "nested",
+        "properties": {
+          "key": { "type": "keyword" },
+          "values": { "type": "keyword" }
         }
       }
     }
@@ -135,8 +143,11 @@ func TestDeleteIndex(t *testing.T) {
 }
 
 func TestSetESData(t *testing.T) {
-
-	p1 := Person{Name: "zhangsan2", Age: 25, Birth: time.Now().Format(common.TimeFormat), Bool: true, Address: address{City: "武汉", State: "鄂"}}
+	m1 := map[string][]string{
+		"A": {"A1", "A2"},
+		"B": {"B1"},
+	}
+	p1 := Person{Name: "zhangsan2", Age: 25, Birth: time.Now().Format(common.TimeFormat), Bool: true, Address: address{City: "武汉", State: "鄂"}, Class: m1}
 	c1 := car{
 		Brand:  "BYD",
 		Colour: "红色",
@@ -148,13 +159,18 @@ func TestSetESData(t *testing.T) {
 		Model:  "汉",
 	}
 	p1.Cars = append(p1.Cars, c1, cc1)
-	ret1, err1 := es_repository.SetESData("person", "_doc", strconv.Itoa(3), p1)
+	ret1, err1 := es_repository.SetESData("person", "_doc", strconv.Itoa(1), p1)
 	if err1 != nil {
 		assert.Error(t, err1)
 	}
 	dumps.Dump(ret1)
 
-	p2 := Person{Name: "lisi2", Age: 30, Birth: time.Now().Format(common.TimeFormat), Bool: false, Address: address{City: "北京", State: "京"}}
+	m2 := map[string][]string{
+		"A": {"000001"},
+		"B": {"B1"},
+		"C": {"C1"},
+	}
+	p2 := Person{Name: "lisi2", Age: 30, Birth: time.Now().Format(common.TimeFormat), Bool: false, Address: address{City: "北京", State: "京"}, Class: m2}
 	c2 := car{
 		Brand:  "长安",
 		Colour: "灰色",
@@ -166,7 +182,7 @@ func TestSetESData(t *testing.T) {
 		Model:  "GS",
 	}
 	p2.Cars = append(p2.Cars, c2, cc2)
-	ret2, err2 := es_repository.SetESData("person", "_doc", strconv.Itoa(4), p2)
+	ret2, err2 := es_repository.SetESData("person", "_doc", strconv.Itoa(2), p2)
 	if err2 != nil {
 		assert.Error(t, err2)
 	}
@@ -216,7 +232,7 @@ func TestQueryESData(t *testing.T) {
 	// 数组查询
 	bq := elastic.NewBoolQuery()
 	mq := elastic.NewMatchQuery("cars.brand", "BYD")
-	tq := elastic.NewTermQuery("cars.colour", "红色")
+	tq := elastic.NewTermsQuery("cars.colour", "红色", "蓝色")
 
 	// where in 条件
 	//values := make([]interface{}, 0)
@@ -225,23 +241,54 @@ func TestQueryESData(t *testing.T) {
 
 	bq = bq.Must(mq, tq)
 
-	ih := elastic.NewInnerHit().Sort("cars.brand", true)
+	//ih := elastic.NewInnerHit().Sort("cars.brand", true)
 	nq := elastic.NewNestedQuery("cars", bq)
 
-	//query := nq
-	query := nq.InnerHit(ih)
+	query := nq
+	//query := nq.InnerHit(ih)
 
 	// 多字段排序：text类型不支持
-	sorter1 := elastic.NewFieldSort("birth").Asc()
-	sorter2 := elastic.NewFieldSort("age").Desc()
+	//sorter1 := elastic.NewFieldSort("birth").Asc()
+	//sorter2 := elastic.NewFieldSort("age").Desc()
 
-	totalCount2, rsp2, err2 := es_repository.QueryESData(index, query, from, size, Person{}, sorter1, sorter2)
+	totalCount2, rsp2, err2 := es_repository.QueryESData(index, query, from, size, Person{})
 	if err2 != nil {
 		assert.Error(t, err2)
 		return
 	}
 	dumps.Dump(totalCount2)
 	dumps.Dump(rsp2)
+
+	boot.Destroy()
+}
+
+// map[string][]string 类查询
+func TestQueryESData2(t *testing.T) {
+	index := "person"
+
+	// 分页
+	from := 0  // 偏移数
+	size := 10 // 偏移量
+
+	bq := elastic.NewBoolQuery()
+	mq1 := elastic.NewMatchQuery("class.A", "A1")
+	mq2 := elastic.NewMatchQuery("class.A", "A2")
+	//mq3 := elastic.NewMatchQuery("class.B", "B2")
+
+	bq = bq.Must(mq1, mq2)
+
+	//ih := elastic.NewInnerHit().Sort("class.key", true)
+	nq := elastic.NewNestedQuery("class", bq)
+
+	//query := nq.InnerHit(ih)
+
+	totalCount, rsp, err := es_repository.QueryESData(index, nq, from, size, Person{})
+	if err != nil {
+		assert.Error(t, err)
+		return
+	}
+	dumps.Dump(totalCount)
+	dumps.Dump(rsp)
 
 	boot.Destroy()
 }

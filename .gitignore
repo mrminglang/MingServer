@@ -1,8 +1,10 @@
 .vscode/
 .idea/
+.history/
 build/
 tmp/
 node_modules/
+.DS_Store
 *.tgz
 vendor
 *.log

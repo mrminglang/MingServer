@@ -4,7 +4,7 @@ import (
 	"github.com/mrminglang/tools/dumps"
 	"github.com/stretchr/testify/assert"
 	"server/boot"
-	"server/repositories/mysql/teacher_repository"
+	"server/repositories/teacher_repository"
 	"testing"
 )
 
@@ -21,7 +21,8 @@ func TestQueryTeachers(t *testing.T) {
 		"order":    "createtime ASC",
 	}
 
-	total, teachers, err := teacher_repository.QueryTeachers(0, 10, whereMaps)
+	newRepo := teacher_repository.NewTeacherRepo
+	total, teachers, err := newRepo.QueryTeachers(0, 10, whereMaps)
 	assert.Nil(t, err)
 	dumps.Dump(total)
 	dumps.Dump(teachers)

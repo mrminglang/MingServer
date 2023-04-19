@@ -4,34 +4,24 @@ import (
 	"context"
 	"encoding/json"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
-	"server/repositories/caches/ming_cache"
+	"server/repositories/dcache_repository"
 	"server/repositories/es/es_repository"
-	"server/repositories/mysql/teacher_repository"
+	"server/repositories/teacher_repository"
 	"server/taf-protocol/MingApp"
 	"server/utils/log"
-	"server/utils/trpc"
 	"strconv"
 	"time"
 )
 
 // 初始化业务逻辑
 func Init(conf *conf.Conf) error {
+	log.Data.Infof("{logic init start......}")
 
-	// ESDriverServer rpc
-	err := trpc.ESInit(conf.GetString("/obj/<esObj>"))
-	if err != nil {
-		log.Es.Infof("{logic init esinit error::}", err.Error())
-		return err
-	}
+	// 初始化数据仓库
+	teacher_repository.InitTeacherRepo(conf)
+	dcache_repository.InitDCacheRepo(conf)
 
-	// DCache.MingProxyServer rpc
-	mcModule := conf.GetString("/app/<mingCacheModule>")
-	mcObj := conf.GetString("/obj/<mingCacheObj>")
-	err = trpc.MCInit(mcModule, mcObj)
-	if err != nil {
-		log.Cache.Infof("{logic init mcinit error::}", err.Error())
-		return err
-	}
+	log.Data.Infof("{logic init success......}")
 
 	return nil
 }
@@ -52,7 +42,8 @@ func GetTeacherList(_ context.Context, req *MingApp.GetTeacherListReq, rsp *Ming
 	if req.NickName != "" {
 		whereMaps["nickname"] = req.NickName
 	}
-	total, teachers, err := teacher_repository.QueryTeachers(int(req.BeginIndex), int(req.Count), whereMaps)
+	newRepo := teacher_repository.NewTeacherRepo
+	total, teachers, err := newRepo.QueryTeachers(int(req.BeginIndex), int(req.Count), whereMaps)
 	if err != nil {
 		log.Data.Errorf("{GetTeacherList QueryTeachers error}|%s|%d", err.Error(), time.Now().UnixMilli()-startTime)
 		return ret, nil
@@ -84,8 +75,8 @@ func SetStringCache(_ context.Context, req *MingApp.SetStringCacheReq, rsp *Ming
 		log.Cache.Errorf("{SetStringCache req param is failed}|%s", rsp.Msg)
 		return
 	}
-
-	ret, err = ming_cache.SetStringCache(req.CacheKey, req.CacheValue)
+	newRepo := dcache_repository.NewDCacheRepo
+	ret, err = newRepo.SetStringCache(req.CacheKey, req.CacheValue, "mingCache")
 	if err != nil {
 		rsp.Msg = err.Error()
 		log.Cache.Errorf("{SetStringCache is error}|%s", err.Error())
@@ -106,8 +97,8 @@ func GetStringCache(_ context.Context, req *MingApp.GetStringCacheReq, rsp *Ming
 		log.Cache.Errorf("{GetStringCache req param is failed}|%s", rsp.Msg)
 		return
 	}
-
-	_, err, cacheRsp := ming_cache.GetStringCache(req.CacheKey)
+	newRepo := dcache_repository.NewDCacheRepo
+	_, err, cacheRsp := newRepo.GetStringCache(req.CacheKey, "mingCache")
 	if err != nil {
 		rsp.Msg = err.Error()
 		log.Cache.Errorf("{GetStringCache is error}|%s", err.Error())
