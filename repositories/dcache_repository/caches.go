@@ -3,7 +3,7 @@ package dcache_repository
 import (
 	"gitlab.upchinaproduct.com/taf/go/dcache"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
-	"server/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/log"
 	"server/utils/trpc"
 )
 

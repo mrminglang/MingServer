@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
+	"gitlab.upchinaproduct.com/upgo/utils/esdb/es_repository"
+	"gitlab.upchinaproduct.com/upgo/utils/log"
 	"server/repositories/dcache_repository"
-	"server/repositories/es_repository"
 	"server/repositories/teacher_repository"
 	"server/taf-protocol/MingApp"
-	"server/utils/log"
 	"strconv"
 	"time"
 )
@@ -118,8 +118,19 @@ func SetESData(_ context.Context, req *MingApp.SetESDataReq, rsp *MingApp.SetESD
 	if req.IndexName == "" || req.Typ == "" || req.Id <= 0 {
 		rsp.Msg = "参数错误"
 		log.Es.Errorf("{SetESData req param is failed}|%s", rsp.Msg)
-		return
+		return ret, nil
 	}
+
+	// 先判断索引是否存在，不存在则创建索引
+	if ok, _ := es_repository.IndexExists([]string{req.IndexName}); !ok {
+		index, err := es_repository.CreateIndex(req.IndexName, "")
+		if err != nil {
+			log.Es.Errorf("{SetESData CreateIndex error::}", err.Error())
+			return ret, nil
+		}
+		log.Es.Infof("{SetESData CreateIndex index::}", index)
+	}
+
 	ret, err = es_repository.SetESData(req.IndexName, req.Typ, strconv.Itoa(int(req.Id)), req.Teachers)
 	if err != nil {
 		rsp.Msg = err.Error()

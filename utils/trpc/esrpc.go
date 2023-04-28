@@ -2,8 +2,8 @@ package trpc
 
 import (
 	"fmt"
+	"gitlab.upchinaproduct.com/upgo/utils/log"
 	"server/taf-protocol/FCS"
-	"server/utils/log"
 	"server/utils/taftool"
 )
 

@@ -315,8 +315,8 @@ github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJ
 github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742/go.mod h1:bx2lNnkwVCuqBIxFjflWJWanXIb3RllmbCylyMrvgv0=
 github.com/modern-go/reflect2 v1.0.1/go.mod h1:bx2lNnkwVCuqBIxFjflWJWanXIb3RllmbCylyMrvgv0=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
-github.com/mrminglang/tools v1.0.4 h1:Evdq95Ii77QFG8yRBw+R2FJLuYsfE+sEPzm66FDXhNU=
-github.com/mrminglang/tools v1.0.4/go.mod h1:fB5fuQSO/1aAY77jfCmFWdwUDbdVl9g3e5mVGatbOqg=
+github.com/mrminglang/tools v1.0.14 h1:NXh4dM0/Bk/8/WVZYrPq5kSRJymCkKIP0V1TW8cCWl8=
+github.com/mrminglang/tools v1.0.14/go.mod h1:zvegbIqpU8s75wdLJqFC3d7nspztOc4X2pfTRRPjROI=
 github.com/mwitkow/go-conntrack v0.0.0-20161129095857-cc309e4a2223/go.mod h1:qRWi+5nqEBWmkhHvq77mSJWrCKwh8bxhgT7d/eI7P4U=
 github.com/olivere/elastic/v7 v7.0.32 h1:R7CXvbu8Eq+WlsLgxmKVKPox0oOwAE/2T9Si5BnvK6E=
 github.com/olivere/elastic/v7 v7.0.32/go.mod h1:c7PVmLe3Fxq77PIfY/bZmxY/TAamBhCzZ8xDOE09a9k=
@@ -376,8 +376,6 @@ github.com/spf13/cobra v1.3.0/go.mod h1:BrRVncBjOJa/eUcVVm9CE+oC6as8k+VYr4NY7WCi
 github.com/spf13/jwalterweatherman v1.1.0/go.mod h1:aNWZUN0dPAAO/Ljvb5BEdw96iTZ0EXowPYD95IqWIGo=
 github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
 github.com/spf13/viper v1.10.0/go.mod h1:SoyBPwAtKDzypXNDFKN5kzH7ppppbGZtls1UpIy5AsM=
-github.com/srlemon/gen-id v1.0.1 h1:HJsqMzbHyeJ8pAUTPNR3oxAqmkOFpoGakqHrzr/xUCI=
-github.com/srlemon/gen-id v1.0.1/go.mod h1:/9rLxNO7sAF+3jWV90rlYoJsQBbkSQxMsxSjX4MH0J4=
 github.com/streadway/amqp v0.0.0-20190404075320-75d898a42a94/go.mod h1:AZpEONHx3DKn8O/DFsRAY58/XVQiIPMTMB1SddzLXVw=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
@@ -399,9 +397,13 @@ github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1
 gitlab.upchinaproduct.com/taf/go/dcache v1.0.0 h1:mlvu4UhgnZaExPYsT+MvttV4xdkmsjRyAK2SoI3IN/c=
 gitlab.upchinaproduct.com/taf/go/dcache v1.0.0/go.mod h1:lIHX80ScDs3UROoLhLPmBsb6o/5eJVUWbCr8216DtYA=
 gitlab.upchinaproduct.com/taf/tafgo v0.1.3/go.mod h1:mnj37Y5KBbozNPmoFszrVr4uD7gMlPeEyuOXyzEB6x4=
-gitlab.upchinaproduct.com/taf/tafgo v1.1.2 h1:EHs/GmAffgspgvY/mfwNC0/mtO7uoi/cNKTD9X3GnZQ=
-gitlab.upchinaproduct.com/taf/tafgo v1.1.2/go.mod h1:JEMBG0KYLoDOZKc293lbqliv6hhT512eGPKmZ8HE9Dw=
+gitlab.upchinaproduct.com/taf/tafgo v1.1.3 h1:dw5JA6VK4R94X0DFY/jh0cB/Ox47UtdjjIz3K9PmByE=
+gitlab.upchinaproduct.com/taf/tafgo v1.1.3/go.mod h1:JEMBG0KYLoDOZKc293lbqliv6hhT512eGPKmZ8HE9Dw=
 gitlab.upchinaproduct.com/taf/tafgo/taf/tools/tafgo v0.0.0-20220511090539-ae86addc93c6/go.mod h1:BAQ3uugvE2+mUMaSSs9dQs7vzXHtJAmgtYkF+VTTdqA=
+gitlab.upchinaproduct.com/upgo/utils/esdb v0.0.1 h1:aoWY485kJzrcqKUbKW75cGh/cpt6J2AmVSPqLqHR6kc=
+gitlab.upchinaproduct.com/upgo/utils/esdb v0.0.1/go.mod h1:u2W/n2r3qnp9NQtx232NlX4g4QnwT5VoFPbD+2D1uoc=
+gitlab.upchinaproduct.com/upgo/utils/log v0.0.2 h1:JPXqQJ0+Qab5JFVWur35dDvkm22M+HxmjWX2qGrhn4I=
+gitlab.upchinaproduct.com/upgo/utils/log v0.0.2/go.mod h1:UHZrBB9NHpoHvoV1Kuf9Uwcr0eixfr+YjpxbokCUmzQ=
 go.etcd.io/etcd/api/v3 v3.5.1/go.mod h1:cbVKeC6lCfl7j/8jBhAK6aIYO9XOjdptoxU/nLQcPvs=
 go.etcd.io/etcd/client/pkg/v3 v3.5.1/go.mod h1:IJHfcCEKxYu1Os13ZdwCwIUTUVGYTSAM3YSwc9/Ac1g=
 go.etcd.io/etcd/client/v2 v2.305.1/go.mod h1:pMEacxZW7o8pg4CrFE7pquyCJJzZvkvdD2RibOCCCGs=

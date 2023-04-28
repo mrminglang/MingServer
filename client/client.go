@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
+	"gitlab.upchinaproduct.com/upgo/utils/log"
 	"server/taf-protocol/MingApp"
-	"server/utils/log"
 )
 
 func main() {

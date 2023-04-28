@@ -3,11 +3,13 @@ module server
 go 1.17
 
 require (
-	github.com/mrminglang/tools v1.0.4
+	github.com/mrminglang/tools v1.0.14
 	github.com/olivere/elastic/v7 v7.0.32
 	github.com/stretchr/testify v1.7.0
 	gitlab.upchinaproduct.com/taf/go/dcache v1.0.0
-	gitlab.upchinaproduct.com/taf/tafgo v1.1.2
+	gitlab.upchinaproduct.com/taf/tafgo v1.1.3
+	gitlab.upchinaproduct.com/upgo/utils/esdb v0.0.1
+	gitlab.upchinaproduct.com/upgo/utils/log v0.0.2
 	gorm.io/driver/mysql v1.4.7
 	gorm.io/gorm v1.24.5
 )
@@ -26,5 +28,4 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/srlemon/gen-id v1.0.1
 )

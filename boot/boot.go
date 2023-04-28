@@ -1,13 +1,16 @@
 package boot
 
 import (
+	"fmt"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
+	"gitlab.upchinaproduct.com/upgo/utils/esdb"
+	"gitlab.upchinaproduct.com/upgo/utils/log"
 	"os"
 	"path/filepath"
 	"server/logic"
+	"server/logic/esrpc"
+	"server/taf-protocol/FCS"
 	"server/utils/confs"
-	"server/utils/esdb"
-	"server/utils/log"
 	"server/utils/ormdb"
 	"server/utils/trpc"
 )
@@ -43,8 +46,23 @@ func Boot(confNames []string, serverName string) error {
 		return err
 	}
 
+	// 获取ES集群配置
+	esRsp, err := esrpc.GetESClusterList(FCS.GetESClusterListReq{})
+	if err != nil {
+		log.Es.Errorf("{esdb init GetESClusterList error|%s}", err.Error())
+		return err
+	}
+
+	hosts := make([]string, 0)
+	for _, row := range esRsp.EsClusters {
+		http := fmt.Sprintf("http://%s:%s", row.Host, row.Port)
+		hosts = append(hosts, http)
+	}
+
 	// 注册es服务
-	err = esdb.Init(confs.GetConf(serverName))
+	user := confs.GetConf(serverName).GetString("/esConf/<username>")
+	password := confs.GetConf(serverName).GetString("/esConf/<password>")
+	err = esdb.Init(hosts, user, password)
 	if err != nil {
 		log.Def.Errorf("boot esdb error::", err.Error())
 		return err

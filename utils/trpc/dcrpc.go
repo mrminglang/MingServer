@@ -3,7 +3,7 @@ package trpc
 import (
 	"gitlab.upchinaproduct.com/taf/go/dcache"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
-	"server/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/log"
 )
 
 var DCacheName2Ptr = make(map[string]*DCacheStruct)

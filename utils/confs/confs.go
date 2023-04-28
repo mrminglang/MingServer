@@ -3,8 +3,7 @@ package confs
 import (
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
-
-	"server/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/log"
 	"server/utils/taftool"
 )
 
