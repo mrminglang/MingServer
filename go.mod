@@ -4,7 +4,6 @@ go 1.17
 
 require (
 	github.com/mrminglang/tools v1.0.14
-	github.com/olivere/elastic/v7 v7.0.32
 	github.com/stretchr/testify v1.7.0
 	gitlab.upchinaproduct.com/taf/go/dcache v1.0.0
 	gitlab.upchinaproduct.com/taf/tafgo v1.1.3
@@ -28,4 +27,5 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/olivere/elastic/v7 v7.0.32 // indirect
 )
