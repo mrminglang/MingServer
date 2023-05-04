@@ -5,13 +5,13 @@ import (
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"gitlab.upchinaproduct.com/upgo/utils/esdb"
 	"gitlab.upchinaproduct.com/upgo/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/ormdb"
 	"os"
 	"path/filepath"
 	"server/logic"
 	"server/logic/esrpc"
 	"server/taf-protocol/FCS"
 	"server/utils/confs"
-	"server/utils/ormdb"
 	"server/utils/trpc"
 )
 
@@ -33,7 +33,7 @@ func Boot(confNames []string, serverName string) error {
 	}
 
 	// 注册MySQL服务
-	err = ormdb.Init(confs.GetConf(serverName), "db")
+	err = ormdb.InitDb(confs.GetConf(serverName), "db")
 	if err != nil {
 		log.Def.Errorf("boot ormdb error::", err.Error())
 		return err

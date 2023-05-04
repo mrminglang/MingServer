@@ -4,7 +4,7 @@ import (
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
 	"gitlab.upchinaproduct.com/upgo/utils/log"
-	"server/utils/taftool"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/taftool"
 )
 
 var ConfName2Ptr = make(map[string]*conf.Conf)

@@ -3,8 +3,8 @@ package trpc
 import (
 	"fmt"
 	"gitlab.upchinaproduct.com/upgo/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/taftool"
 	"server/taf-protocol/FCS"
-	"server/utils/taftool"
 )
 
 var ESPrx FCS.ESDriver
