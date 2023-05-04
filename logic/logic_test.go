@@ -6,6 +6,7 @@ import (
 	"github.com/mrminglang/tools/dumps"
 	"github.com/stretchr/testify/assert"
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/tafrpc/dcache_rpc"
 	"server/boot"
 	"server/logic"
 	"server/taf-protocol/MingApp"
@@ -32,6 +33,46 @@ func TestGetTeacherList(t *testing.T) {
 	}
 	fmt.Printf("getTeacherList rst::%d", ret)
 	fmt.Printf("getTeacherList rsp::%s", rsp.Display())
+}
+
+func TestSetStringCache(t *testing.T) {
+	key := "key-20230504"
+	value := "value-20230504"
+
+	newRepo := dcache_rpc.NewDCacheRepo
+	ret, err := newRepo.SetStringCache(key, value, "ming")
+	if err != nil {
+		assert.Error(t, err)
+	}
+
+	dumps.Dump(ret)
+
+	boot.Destroy()
+}
+
+func TestGetStringCache(t *testing.T) {
+	newRepo := dcache_rpc.NewDCacheRepo
+
+	key := "key-20230504"
+	ret, err, rsp := newRepo.GetStringCache(key, "ming")
+	if err != nil {
+		assert.Error(t, err)
+		return
+	}
+	dumps.Dump(ret)
+	dumps.Dump(rsp)
+
+	key1 := "NewsIdGen"
+	ret1, err, rsp1 := newRepo.GetStringCache(key1, "cnews")
+	if err != nil {
+		assert.Error(t, err)
+		return
+	}
+
+	dumps.Dump(ret1)
+	dumps.Dump(rsp1)
+
+	boot.Destroy()
 }
 
 func TestSetESData(t *testing.T) {

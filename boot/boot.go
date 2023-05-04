@@ -7,12 +7,12 @@ import (
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/confs"
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/ormdb"
+	"gitlab.upchinaproduct.com/upgo/utils/tafrpc"
+	"gitlab.upchinaproduct.com/upgo/utils/tafrpc/es_rpc"
+	"gitlab.upchinaproduct.com/upgo/utils/tafrpc/taf-protocol/FCS"
 	"os"
 	"path/filepath"
 	"server/logic"
-	"server/logic/esrpc"
-	"server/taf-protocol/FCS"
-	"server/utils/trpc"
 )
 
 // 启动服务设置
@@ -40,14 +40,14 @@ func Boot(confNames []string, serverName string) error {
 	}
 
 	// ESDriverServer rpc
-	err = trpc.ESInit(confs.GetConf(serverName).GetString("/obj/<esObj>"))
+	err = tafrpc.ESInit(confs.GetConf(serverName).GetString("/obj/<esObj>"))
 	if err != nil {
 		log.Def.Infof("{boot esinit error::}", err.Error())
 		return err
 	}
 
 	// 获取ES集群配置
-	esRsp, err := esrpc.GetESClusterList(FCS.GetESClusterListReq{})
+	esRsp, err := es_rpc.GetESClusterList(FCS.GetESClusterListReq{})
 	if err != nil {
 		log.Es.Errorf("{esdb init GetESClusterList error|%s}", err.Error())
 		return err
@@ -69,7 +69,7 @@ func Boot(confNames []string, serverName string) error {
 	}
 
 	// 注册DCache服务
-	err = trpc.DCacheInit(confs.GetConf(serverName), "dcache")
+	err = tafrpc.DCacheInit(confs.GetConf(serverName), "dCache")
 	if err != nil {
 		log.Def.Errorf("boot DCache error::", err.Error())
 		return err

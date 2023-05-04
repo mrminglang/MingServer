@@ -6,7 +6,7 @@ import (
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
 	"gitlab.upchinaproduct.com/upgo/utils/esdb/es_repository"
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
-	"server/repositories/dcache_repository"
+	"gitlab.upchinaproduct.com/upgo/utils/tafrpc/dcache_rpc"
 	"server/repositories/teacher_repository"
 	"server/taf-protocol/MingApp"
 	"strconv"
@@ -19,7 +19,7 @@ func Init(conf *conf.Conf) error {
 
 	// 初始化数据仓库
 	teacher_repository.InitTeacherRepo(conf)
-	dcache_repository.InitDCacheRepo(conf)
+	dcache_rpc.InitDCacheRepo(conf)
 
 	log.Data.Infof("{logic init success......}")
 
@@ -75,7 +75,7 @@ func SetStringCache(_ context.Context, req *MingApp.SetStringCacheReq, rsp *Ming
 		log.Cache.Errorf("{SetStringCache req param is failed}|%s", rsp.Msg)
 		return
 	}
-	newRepo := dcache_repository.NewDCacheRepo
+	newRepo := dcache_rpc.NewDCacheRepo
 	ret, err = newRepo.SetStringCache(req.CacheKey, req.CacheValue, "mingCache")
 	if err != nil {
 		rsp.Msg = err.Error()
@@ -97,7 +97,7 @@ func GetStringCache(_ context.Context, req *MingApp.GetStringCacheReq, rsp *Ming
 		log.Cache.Errorf("{GetStringCache req param is failed}|%s", rsp.Msg)
 		return
 	}
-	newRepo := dcache_repository.NewDCacheRepo
+	newRepo := dcache_rpc.NewDCacheRepo
 	_, err, cacheRsp := newRepo.GetStringCache(req.CacheKey, "mingCache")
 	if err != nil {
 		rsp.Msg = err.Error()
