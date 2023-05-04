@@ -434,8 +434,8 @@ gitlab.upchinaproduct.com/upgo/utils/esdb v0.0.1 h1:aoWY485kJzrcqKUbKW75cGh/cpt6
 gitlab.upchinaproduct.com/upgo/utils/esdb v0.0.1/go.mod h1:u2W/n2r3qnp9NQtx232NlX4g4QnwT5VoFPbD+2D1uoc=
 gitlab.upchinaproduct.com/upgo/utils/log v0.0.2 h1:JPXqQJ0+Qab5JFVWur35dDvkm22M+HxmjWX2qGrhn4I=
 gitlab.upchinaproduct.com/upgo/utils/log v0.0.2/go.mod h1:UHZrBB9NHpoHvoV1Kuf9Uwcr0eixfr+YjpxbokCUmzQ=
-gitlab.upchinaproduct.com/upgo/utils/server_utils v0.0.3 h1:W9zK5cpePvttrhqAhGtKzjoIz+2BrBAWSGGWxIcsylk=
-gitlab.upchinaproduct.com/upgo/utils/server_utils v0.0.3/go.mod h1:58WWO6fHDsl5DRITdDp6Hvasqt/sW0royctXzQ8nEZQ=
+gitlab.upchinaproduct.com/upgo/utils/server_utils v0.0.4 h1:QkPRlH29TvyD/wmISL3V89q5y7KsFC0NKBHmTxHP2n0=
+gitlab.upchinaproduct.com/upgo/utils/server_utils v0.0.4/go.mod h1:58WWO6fHDsl5DRITdDp6Hvasqt/sW0royctXzQ8nEZQ=
 go.etcd.io/etcd/api/v3 v3.5.1/go.mod h1:cbVKeC6lCfl7j/8jBhAK6aIYO9XOjdptoxU/nLQcPvs=
 go.etcd.io/etcd/client/pkg/v3 v3.5.1/go.mod h1:IJHfcCEKxYu1Os13ZdwCwIUTUVGYTSAM3YSwc9/Ac1g=
 go.etcd.io/etcd/client/v2 v2.305.1/go.mod h1:pMEacxZW7o8pg4CrFE7pquyCJJzZvkvdD2RibOCCCGs=

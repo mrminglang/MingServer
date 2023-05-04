@@ -9,7 +9,7 @@ require (
 	gitlab.upchinaproduct.com/taf/tafgo v1.1.3
 	gitlab.upchinaproduct.com/upgo/utils/esdb v0.0.1
 	gitlab.upchinaproduct.com/upgo/utils/log v0.0.2
-	gitlab.upchinaproduct.com/upgo/utils/server_utils v0.0.3
+	gitlab.upchinaproduct.com/upgo/utils/server_utils v0.0.4
 	gorm.io/gorm v1.25.0
 )
 

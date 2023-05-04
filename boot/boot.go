@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"gitlab.upchinaproduct.com/upgo/utils/esdb"
-	"gitlab.upchinaproduct.com/upgo/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/confs"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/ormdb"
 	"os"
 	"path/filepath"
 	"server/logic"
 	"server/logic/esrpc"
 	"server/taf-protocol/FCS"
-	"server/utils/confs"
 	"server/utils/trpc"
 )
 

@@ -1,7 +1,7 @@
 package esrpc
 
 import (
-	"gitlab.upchinaproduct.com/upgo/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
 	"server/taf-protocol/FCS"
 	"server/utils/trpc"
 )

@@ -2,7 +2,7 @@ package teacher_repository
 
 import (
 	"gitlab.upchinaproduct.com/taf/tafgo/taf/util/conf"
-	"gitlab.upchinaproduct.com/upgo/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/ormdb"
 	"gorm.io/gorm"
 	"server/repositories/models"

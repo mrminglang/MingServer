@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/mrminglang/tools/dumps"
 	"github.com/stretchr/testify/assert"
-	"gitlab.upchinaproduct.com/upgo/utils/log"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
 	"server/boot"
 	"server/logic"
 	"server/taf-protocol/MingApp"
