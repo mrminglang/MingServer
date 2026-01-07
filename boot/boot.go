@@ -2,6 +2,10 @@ package boot
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"server/logic"
+
 	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"gitlab.upchinaproduct.com/upgo/utils/esdb"
 	"gitlab.upchinaproduct.com/upgo/utils/server_utils/confs"
@@ -10,9 +14,6 @@ import (
 	"gitlab.upchinaproduct.com/upgo/utils/tafrpc"
 	"gitlab.upchinaproduct.com/upgo/utils/tafrpc/es_rpc"
 	"gitlab.upchinaproduct.com/upgo/utils/tafrpc/taf-protocol/FCS"
-	"os"
-	"path/filepath"
-	"server/logic"
 )
 
 // 启动服务设置
@@ -28,21 +29,21 @@ func Boot(confNames []string, serverName string) error {
 	// 注册配置信息
 	err := confs.Init(confNames)
 	if err != nil {
-		log.Def.Errorf("boot confs error::", err.Error())
+		log.Def.Errorf("boot confs error::%s", err.Error())
 		return err
 	}
 
 	// 注册MySQL服务
 	err = ormdb.InitDb(confs.GetConf(serverName), "db")
 	if err != nil {
-		log.Def.Errorf("boot ormdb error::", err.Error())
+		log.Def.Errorf("boot ormdb error::%s", err.Error())
 		return err
 	}
 
 	// ESDriverServer rpc
 	err = tafrpc.ESInit(confs.GetConf(serverName).GetString("/obj/<esObj>"))
 	if err != nil {
-		log.Def.Infof("{boot esinit error::}", err.Error())
+		log.Def.Infof("{boot esinit error::%s}", err.Error())
 		return err
 	}
 
@@ -64,21 +65,21 @@ func Boot(confNames []string, serverName string) error {
 	password := confs.GetConf(serverName).GetString("/esConf/<password>")
 	err = esdb.Init(hosts, user, password)
 	if err != nil {
-		log.Def.Errorf("boot esdb error::", err.Error())
+		log.Def.Errorf("boot esdb error::%s", err.Error())
 		return err
 	}
 
 	// 注册DCache服务
-	err = tafrpc.DCacheInit(confs.GetConf(serverName), "dCache")
+	err = tafrpc.DCacheInit(confs.GetConf(serverName), "DCache")
 	if err != nil {
-		log.Def.Errorf("boot DCache error::", err.Error())
+		log.Def.Errorf("boot DCache error::%s", err.Error())
 		return err
 	}
 
 	//初始化业务逻辑
 	err = logic.Init(confs.GetConf(serverName))
 	if err != nil {
-		log.Def.Errorf("boot logic error::", err.Error())
+		log.Def.Errorf("boot logic error::%s", err.Error())
 		return err
 	}
 

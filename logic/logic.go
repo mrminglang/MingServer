@@ -76,7 +76,7 @@ func SetStringCache(_ context.Context, req *MingApp.SetStringCacheReq, rsp *Ming
 		return
 	}
 	newRepo := dcache_rpc.NewDCacheRepo
-	ret, err = newRepo.SetStringCache(req.CacheKey, req.CacheValue, "mingCache")
+	ret, err = newRepo.SetString(req.CacheKey, req.CacheValue, "ming")
 	if err != nil {
 		rsp.Msg = err.Error()
 		log.Cache.Errorf("{SetStringCache is error}|%s", err.Error())
@@ -98,7 +98,7 @@ func GetStringCache(_ context.Context, req *MingApp.GetStringCacheReq, rsp *Ming
 		return
 	}
 	newRepo := dcache_rpc.NewDCacheRepo
-	_, err, cacheRsp := newRepo.GetStringCache(req.CacheKey, "mingCache")
+	_, err, cacheRsp := newRepo.GetString(req.CacheKey, "ming")
 	if err != nil {
 		rsp.Msg = err.Error()
 		log.Cache.Errorf("{GetStringCache is error}|%s", err.Error())

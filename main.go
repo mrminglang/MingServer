@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
-	"gitlab.upchinaproduct.com/taf/tafgo/taf"
 	"os"
 	"server/boot"
+	"server/logic/http_proxy"
 	"server/taf-protocol/MingApp"
+
+	"gitlab.upchinaproduct.com/taf/tafgo/taf"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/confs"
+	"gitlab.upchinaproduct.com/upgo/utils/server_utils/log"
 )
 
 func main() {
@@ -31,21 +35,15 @@ func main() {
 		app.AddServantWithContext(imp, cfg.App+"."+cfg.Server+".MingHelloObj") // Register Servant
 	}
 
-	// 支持HTTP
-	//{
-	//	mux := &taf.TafHttpMux{}
-	//	mux.HandleFunc("/ming", func(w http.ResponseWriter, r *http.Request) {
-	//		whereMaps := map[string]string{
-	//			//"nickname": "张三",
-	//			"order": "createtime ASC",
-	//		}
-	//		_, teachers, _ := teacher_repository.NewTeacher().QueryTeachers(0, 100, whereMaps)
-	//		resp, _ := json.Marshal(teachers)
-	//
-	//		_, _ = w.Write(resp)
-	//	})
-	//	taf.AddHttpServant(mux, cfg.App+"."+cfg.Server+".MingHelloObj") //Register http server
-	//}
+	// http
+	{
+		if confs.GetConf(cfg.Server).GetBoolWithDef("/app/<isHttpOn>", false) {
+			// http接口监听 没走taf协议，请求不被taf接管
+			log.Def.Infof("MingHelloImp init http start......")
+			httpProxy := http_proxy.GetHttpProxy(cfg.App + "." + cfg.Server + ".MingHttpObj")
+			httpProxy.Run()
+		}
+	}
 
 	// Run application
 	taf.Run()

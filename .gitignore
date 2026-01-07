@@ -1,6 +1,7 @@
 .vscode/
 .idea/
 .history/
+.gocache/
 build/
 tmp/
 node_modules/

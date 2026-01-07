@@ -1,11 +1,12 @@
 package teacher_repository_test
 
 import (
-	"github.com/mrminglang/tools/dumps"
-	"github.com/stretchr/testify/assert"
 	"server/boot"
 	"server/repositories/teacher_repository"
 	"testing"
+
+	"github.com/mrminglang/tools/dumps"
+	"github.com/stretchr/testify/assert"
 )
 
 var serverName = boot.RootPath() + "/MingServer"

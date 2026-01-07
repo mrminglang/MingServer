@@ -1,17 +1,16 @@
 module server
 
-go 1.17
+go 1.24.0
 
 require (
-	github.com/mrminglang/tools v1.0.14
-	github.com/stretchr/testify v1.8.2
-	gitlab.upchinaproduct.com/taf/go/dcache v1.0.0
+	github.com/mrminglang/tools v1.1.15
+	github.com/stretchr/testify v1.11.1
 	gitlab.upchinaproduct.com/taf/tafgo v1.1.3
 	gitlab.upchinaproduct.com/upgo/utils/esdb v0.0.1
 	gitlab.upchinaproduct.com/upgo/utils/log v0.0.2
-	gitlab.upchinaproduct.com/upgo/utils/server_utils v0.0.5
-	gitlab.upchinaproduct.com/upgo/utils/tafrpc v0.0.2
-	gorm.io/gorm v1.25.0
+	gitlab.upchinaproduct.com/upgo/utils/server_utils v0.1.4
+	gitlab.upchinaproduct.com/upgo/utils/tafrpc v1.1.7
+	gorm.io/gorm v1.25.4
 )
 
 require (
@@ -32,6 +31,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/microsoft/go-mssqldb v0.21.0 // indirect
 	github.com/olivere/elastic/v7 v7.0.32 // indirect
+	gitlab.upchinaproduct.com/taf/go/dcache v1.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b // indirect
 	gorm.io/driver/mysql v1.5.0 // indirect
 	gorm.io/driver/sqlserver v1.4.3 // indirect
